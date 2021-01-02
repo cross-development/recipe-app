@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { Form, Field } from 'formik';
 import bg_img from 'assets/food_bg.jpeg';
-import { FaEnvelope, FaLock } from 'react-icons/fa';
+import { FaEnvelope, FaLock, FaIdBadge } from 'react-icons/fa';
 
 export const StyledContainer = styled.div`
 	width: 100%;
@@ -148,6 +148,13 @@ export const StyledEmailIcon = styled(FaEnvelope)`
 `;
 
 export const StyledPassIcon = styled(FaLock)`
+	position: absolute;
+	bottom: 12px;
+	left: 0;
+	color: #e0e0e0;
+`;
+
+export const StyledNameIcon = styled(FaIdBadge)`
 	position: absolute;
 	bottom: 12px;
 	left: 0;

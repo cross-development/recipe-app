@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 //Styles
 import { StyledButton, StyledLink, StyledFormWrap } from './Login.styles';
 import { StyledRequireMessage, StyledEmailIcon, StyledPassIcon } from './Login.styles';
-import { StylesForm, StyledLabel, StyledInput, StyledContainer } from './Login.styles';
+import { StyledForm, StyledLabel, StyledInput, StyledContainer } from './Login.styles';
 
 const SignupSchema = Yup.object().shape({
 	email: Yup.string().email('Invalid email').required('Required'),
@@ -26,7 +26,7 @@ const Login = ({ userInfo, handleSubmit }) => (
 				}}
 			>
 				{({ handleChange, values, touched, isValid, errors }) => (
-					<StylesForm>
+					<StyledForm>
 						<StyledLabel>
 							<StyledEmailIcon />
 
@@ -64,7 +64,7 @@ const Login = ({ userInfo, handleSubmit }) => (
 						<StyledButton type="submit">Вход</StyledButton>
 
 						<StyledLink to="/register">Регистрация</StyledLink>
-					</StylesForm>
+					</StyledForm>
 				)}
 			</Formik>
 		</StyledFormWrap>
