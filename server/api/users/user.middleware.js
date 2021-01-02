@@ -1,13 +1,7 @@
 //Validation package
 const Joi = require('joi');
-//Model
-const userModel = require('./user.model');
 //Decode jwt
 const jwt = require('jsonwebtoken');
-//Mongoose validation ObjID
-const {
-	Types: { ObjectId },
-} = require('mongoose');
 
 //The middleware validate to register user
 function validateSignUpUser(req, res, next) {
@@ -51,18 +45,15 @@ async function validateUserToken(req, res, next) {
 		const authorizationHeader = req.get('Authorization');
 		const token = authorizationHeader.replace('Bearer ', '');
 
-		const userId = await jwt.verify(token, process.env.JWT_SECRET_KEY).userId;
+		try {
+			const userId = await jwt.verify(token, process.env.JWT_SECRET_KEY).userId;
 
-		const user = await userModel.findUserById(userId);
+			req.user = { userId, token };
 
-		if (!user) {
+			next();
+		} catch (err) {
 			return res.status(401).json({ message: 'Not authorized' });
 		}
-
-		req.user = user;
-		req.token = token;
-
-		next();
 	} catch (err) {
 		next(err);
 	}

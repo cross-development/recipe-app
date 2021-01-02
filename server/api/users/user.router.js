@@ -1,6 +1,6 @@
 //Core
 const { Router } = require('express');
-//Controllers
+//Controller
 const userController = require('./user.controller');
 //Middleware
 const userMiddleware = require('./user.middleware');
