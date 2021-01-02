@@ -1,14 +1,13 @@
 //Core
 const express = require('express');
 const mongoose = require('mongoose');
-const { graphqlHTTP } = require('express-graphql');
 //Middleware
 const cors = require('cors');
 require('dotenv').config();
-//Schema
-const recipeSchema = require('../api/recipes/recipe.schema');
 //Router
 const userRouter = require('../api/users/user.router');
+const recipeRouter = require('../api/recipes/recipe.router');
+const ingredientRouter = require('../api/ingredients/ingredient.router');
 //Handle logs
 const accessLogStream = require('../utils/accessLogStream');
 
@@ -22,7 +21,6 @@ class Server {
 		this.initMiddleware();
 		this.initRouter();
 		await this.initDatabase();
-		this.initGraphQL();
 		this.startListening();
 	}
 
@@ -39,6 +37,8 @@ class Server {
 	initRouter() {
 		this.server.use('/api/auth', userRouter);
 		this.server.use('/api/users', userRouter);
+		this.server.use('/api/recipes', recipeRouter);
+		this.server.use('/api/ingredients', ingredientRouter);
 	}
 
 	async initDatabase() {
@@ -53,16 +53,6 @@ class Server {
 		} catch (error) {
 			process.exit(1);
 		}
-	}
-
-	initGraphQL() {
-		this.server.use(
-			'/graphql',
-			graphqlHTTP({
-				schema: recipeSchema,
-				graphiql: true,
-			}),
-		);
 	}
 
 	startListening() {
