@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 //Middleware
 const cors = require('cors');
+const morgan = require('morgan');
 require('dotenv').config();
 //Router
 const userRouter = require('../api/users/user.router');
