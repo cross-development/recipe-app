@@ -1,8 +1,19 @@
 //Core
-const { Schema, model } = require('mongoose');
+const {
+	Schema,
+	model,
+	Types: { ObjectId },
+} = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate-v2');
 
-const ingredientModel = new Schema({});
+const ingredientModel = new Schema({
+	name: { type: String, required: true },
+	protein: { type: Number, required: true },
+	fat: { type: Number, required: true },
+	carbs: { type: Number, required: true },
+	kcal: { type: Number, required: true },
+	recipeIDs: [{ type: ObjectId }],
+});
 
 ingredientModel.plugin(mongoosePaginate);
 

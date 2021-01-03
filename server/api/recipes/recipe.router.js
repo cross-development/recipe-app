@@ -8,28 +8,37 @@ const recipeMiddleware = require('./recipe.middleware');
 const {
 	getAllRecipes,
 	getRecipeById,
+	getRecipeByQuery,
 	addRecipe,
 	removeRecipe,
 	updateRecipe,
-	paginationRecipes,
-	filtrationRecipes,
 } = recipeController;
+
+const {
+	validateCreateRecipe,
+	validateUpdateRecipe,
+	validateRecipeId,
+	validateRecipeQuery,
+} = recipeMiddleware;
 
 const recipeRouter = Router();
 
 // @ GET /api/recipes
 recipeRouter.get('/', getAllRecipes);
 
+// @ GET /api/recipes/search (by query from req.query)
+recipeRouter.get('/search', validateRecipeQuery, getRecipeByQuery);
+
 // @ GET /api/recipes/:id
-recipeRouter.get('/:id', getRecipeById);
+recipeRouter.get('/:id', validateRecipeId, getRecipeById);
 
 // @ POST /api/recipes
-recipeRouter.post('/', addRecipe);
+recipeRouter.post('/', validateCreateRecipe, addRecipe);
 
 // @ DELETE /api/recipes/:id
-recipeRouter.delete('/:id', removeRecipe);
+recipeRouter.delete('/:id', validateRecipeId, removeRecipe);
 
 // @ PATCH /api/recipes/:id
-recipeRouter.patch('/:id', updateRecipe);
+recipeRouter.patch('/:id', validateRecipeId, validateUpdateRecipe, updateRecipe);
 
 module.exports = recipeRouter;

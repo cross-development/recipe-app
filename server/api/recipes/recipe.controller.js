@@ -15,6 +15,13 @@ async function getRecipeById(req, res, next) {
 	}
 }
 
+async function getRecipeByQuery(req, res, next) {
+	try {
+	} catch (error) {
+		next(error);
+	}
+}
+
 async function addRecipe(req, res, next) {
 	try {
 	} catch (error) {
@@ -36,16 +43,11 @@ async function updateRecipe(req, res, next) {
 	}
 }
 
-async function paginationRecipes(req, res, next) {}
-
-async function filtrationRecipes(req, res, next) {}
-
 module.exports = {
 	getAllRecipes,
 	getRecipeById,
+	getRecipeByQuery,
 	addRecipe,
 	removeRecipe,
 	updateRecipe,
-	paginationRecipes,
-	filtrationRecipes,
 };
