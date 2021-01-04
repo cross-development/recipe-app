@@ -6,7 +6,9 @@ async function getAllIngredients(req, res, next) {
 		const { page } = req.query;
 
 		const options = { page, limit: 10 };
-		const results = await ingredientModel.paginate({}, page ? options : null);
+		const option = { populate: { path: 'recipes', select: 'name' } };
+
+		const results = await ingredientModel.paginate({}, page ? { ...options, ...option } : option);
 
 		const response = {
 			results: results.docs,
@@ -25,7 +27,9 @@ async function getAllIngredients(req, res, next) {
 async function getIngredientById(req, res, next) {
 	try {
 		const { id } = req.params;
-		const ingredient = await ingredientModel.findOne({ _id: id });
+		const ingredient = await ingredientModel
+			.findOne({ _id: id })
+			.populate({ path: 'recipes', select: 'name' });
 
 		!ingredient ? res.status(404).json({ message: 'Not found' }) : res.status(200).json(ingredient);
 	} catch (error) {
@@ -36,30 +40,11 @@ async function getIngredientById(req, res, next) {
 async function getIngredientByQuery(req, res, next) {
 	try {
 		const { query } = req.query;
-		const ingredient = await ingredientModel.find({ name: { $regex: query, $options: 'i' } });
+		const ingredient = await ingredientModel
+			.find({ name: { $regex: query, $options: 'i' } })
+			.populate({ path: 'recipes', select: 'name' });
 
 		!ingredient ? res.status(404).json({ message: 'Not found' }) : res.status(200).json(ingredient);
-	} catch (error) {
-		next(error);
-	}
-}
-
-async function addIngredient(req, res, next) {
-	try {
-	} catch (error) {
-		next(error);
-	}
-}
-
-async function removeIngredient(req, res, next) {
-	try {
-	} catch (error) {
-		next(error);
-	}
-}
-
-async function updateIngredient(req, res, next) {
-	try {
 	} catch (error) {
 		next(error);
 	}
@@ -69,7 +54,4 @@ module.exports = {
 	getAllIngredients,
 	getIngredientById,
 	getIngredientByQuery,
-	addIngredient,
-	removeIngredient,
-	updateIngredient,
 };

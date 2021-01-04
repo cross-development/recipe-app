@@ -1,26 +1,33 @@
-//Validation package
-const Joi = require('joi');
+//Mongoose validation ObjID
+const {
+	Types: { ObjectId },
+} = require('mongoose');
 
-function validateCreateRecipe(req, res, next) {
-	const createRecipeRules = Joi.object({});
+function validateRecipeQuery(req, res, next) {
+	const { query } = req.query;
 
-	const validatedRecipe = createRecipeRules.validate(req.body);
-
-	if (validatedRecipe.error) {
-		return res.status(400).send({ message: 'missing required name field' });
+	if (!query || query.length < 2) {
+		return res.status(400).send({ message: 'invalid query' });
 	}
 
 	next();
 }
 
-function validateUpdateRecipe(req, res, next) {
-	const updateRecipeRules = Joi.object({}).min(1);
+function validateRecipePage(req, res, next) {
+	const { page } = req.query;
 
-	const validatedRecipe = updateRecipeRules.validate(req.body);
-
-	if (validatedRecipe.error) {
-		return res.status(400).send({ message: 'missing fields' });
+	if (!page && page !== '') {
+		return next();
 	}
+
+	const defaultPage = 1;
+	const isPageValid = Number(page) && Number(page) >= defaultPage;
+
+	if (!isPageValid) {
+		return res.status(400).send({ message: 'invalid page' });
+	}
+
+	next();
 }
 
 function validateRecipeId(req, res, next) {
@@ -33,11 +40,8 @@ function validateRecipeId(req, res, next) {
 	next();
 }
 
-function validateRecipeQuery(req, res, next) {}
-
 module.exports = {
-	validateCreateRecipe,
-	validateUpdateRecipe,
-	validateRecipeId,
 	validateRecipeQuery,
+	validateRecipePage,
+	validateRecipeId,
 };

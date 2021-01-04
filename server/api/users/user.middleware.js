@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 //The middleware validate to register user
 function validateSignUpUser(req, res, next) {
 	const createRegisterRules = Joi.object({
+		username: Joi.string().min(3).max(20).required(),
 		email: Joi.string().email().required(),
 		password: Joi.string().min(6).max(20).required(),
 	});
@@ -40,9 +41,9 @@ function validateSignInUser(req, res, next) {
 }
 
 //The middleware validate user token
-async function validateUserToken(req, res, next) {
+async function validateToken(req, res, next) {
 	try {
-		const authorizationHeader = req.get('Authorization');
+		const authorizationHeader = req.get('Authorization') || '';
 		const token = authorizationHeader.replace('Bearer ', '');
 
 		try {
@@ -59,8 +60,111 @@ async function validateUserToken(req, res, next) {
 	}
 }
 
+//The middleware validate user/recipe/ingredient Id
+function validateID(req, res, next) {
+	const { id } = req.params;
+
+	if (!ObjectId.isValid(id)) {
+		return res.status(400).send({ message: 'invalid id' });
+	}
+
+	next();
+}
+
+//The middleware validate ingredient fields before create
+function validateCreateIngredient(req, res, next) {
+	const createIngredientRules = Joi.object({
+		name: Joi.string().min(2).required(),
+		protein: Joi.number().min(0).required(),
+		fat: Joi.number().min(0).required(),
+		carbs: Joi.number().min(0).required(),
+		kcal: Joi.number().min(0).required(),
+	});
+
+	const validatedIngredient = createIngredientRules.validate(req.body);
+
+	if (validatedIngredient.error) {
+		return res.status(400).send({ message: 'missing required name field' });
+	}
+
+	next();
+}
+
+//The middleware validate ingredient fields before update
+function validateUpdateIngredient(req, res, next) {
+	const updateIngredientRules = Joi.object({
+		name: Joi.string().min(2),
+		protein: Joi.number().min(0),
+		fat: Joi.number().min(0),
+		carbs: Joi.number().min(0),
+		kcal: Joi.number().min(0),
+	}).min(1);
+
+	const validatedIngredient = updateIngredientRules.validate(req.body);
+
+	if (validatedIngredient.error) {
+		return res.status(400).send({ message: 'missing fields' });
+	}
+
+	next();
+}
+
+//The middleware validate recipe fields before create
+function validateCreateRecipe(req, res, next) {
+	const createRecipeRules = Joi.object({
+		name: Joi.string().min(2).required(),
+		category: Joi.string().min(2).required(),
+		cuisine: Joi.string().min(2).required(),
+		cookingTime: Joi.string().min(2).required(),
+		ingredients: Joi.array().required(),
+		description: Joi.string().min(2).required(),
+		protein: Joi.number().min(0),
+		fat: Joi.number().min(0),
+		carbs: Joi.number().min(0),
+		kcal: Joi.number().min(0),
+	});
+
+	const validatedRecipe = createRecipeRules.validate(req.body);
+
+	if (validatedRecipe.error) {
+		return res.status(400).send({ message: 'missing required name field' });
+	}
+
+	next();
+}
+
+//The middleware validate recipe fields before update
+function validateUpdateRecipe(req, res, next) {
+	const updateRecipeRules = Joi.object({
+		name: Joi.string().min(2),
+		category: Joi.string().min(2),
+		cuisine: Joi.string().min(2),
+		cookingTime: Joi.string().min(2),
+		ingredients: Joi.array(),
+		description: Joi.string().min(2),
+		protein: Joi.number().min(0),
+		fat: Joi.number().min(0),
+		carbs: Joi.number().min(0),
+		kcal: Joi.number().min(0),
+	}).min(1);
+
+	const validatedRecipe = updateRecipeRules.validate(req.body);
+
+	if (validatedRecipe.error) {
+		return res.status(400).send({ message: 'missing fields' });
+	}
+}
+
 module.exports = {
 	validateSignUpUser,
 	validateSignInUser,
-	validateUserToken,
+	validateToken,
+
+	validateID,
+
+	validateCreateIngredient,
+	validateUpdateIngredient,
+
+	validateCreateRecipe,
+	validateUpdateRecipe,
 };

@@ -5,22 +5,8 @@ const ingredientController = require('./ingredient.controller');
 //Middleware
 const ingredientMiddleware = require('./ingredient.middleware');
 
-const {
-	getAllIngredients,
-	getIngredientById,
-	getIngredientByQuery,
-	addIngredient,
-	removeIngredient,
-	updateIngredient,
-} = ingredientController;
-
-const {
-	validateCreateIngredient,
-	validateUpdateIngredient,
-	validateIngredientId,
-	validateIngredientQuery,
-	validateIngredientPage,
-} = ingredientMiddleware;
+const { getAllIngredients, getIngredientById, getIngredientByQuery } = ingredientController;
+const { validateIngredientId, validateIngredientQuery, validateIngredientPage } = ingredientMiddleware;
 
 const ingredientRouter = Router();
 
@@ -32,14 +18,5 @@ ingredientRouter.get('/search', validateIngredientQuery, getIngredientByQuery);
 
 // @ GET /api/ingredients/:id
 ingredientRouter.get('/:id', validateIngredientId, getIngredientById);
-
-// @ POST /api/ingredients
-ingredientRouter.post('/', validateCreateIngredient, addIngredient);
-
-// @ DELETE /api/ingredients/:id
-ingredientRouter.delete('/:id', validateIngredientId, removeIngredient);
-
-// @ PATCH /api/ingredients/:id
-ingredientRouter.patch('/:id', validateIngredientId, validateUpdateIngredient, updateIngredient);
 
 module.exports = ingredientRouter;
