@@ -12,7 +12,6 @@ const ingredientModel = new Schema({
 	fat: { type: Number, required: true },
 	carbs: { type: Number, required: true },
 	kcal: { type: Number, required: true },
-	recipes: [{ type: ObjectId, ref: 'Recipe' }],
 	authorID: { type: ObjectId, ref: 'User' },
 });
 

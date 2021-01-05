@@ -16,18 +16,16 @@ const recipeSchema = new Schema({
 	fat: { type: Number, required: true },
 	carbs: { type: Number, required: true },
 	kcal: { type: Number, required: true },
-	ingredients: [{ type: ObjectId, ref: 'Ingredient' }],
+	ingredients: [
+		{
+			_id: { type: ObjectId, ref: 'Ingredient' },
+			amount: { type: Number, required: true },
+			unit: { type: String, required: true },
+		},
+	],
 	authorID: { type: ObjectId, ref: 'User' },
 });
 
 recipeSchema.plugin(mongoosePaginate);
 
 module.exports = model('Recipe', recipeSchema);
-
-// ingredients: [
-// {
-// 	ingredientID: { type: ObjectId, ref: 'Ingredient' },
-// 	amount: { type: Number, required: true },
-// 	unit: { type: String, required: true },
-// },
-// ],

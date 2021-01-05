@@ -83,11 +83,8 @@ async function getCurrentUser(req, res, next) {
 	try {
 		const user = await userModel
 			.findById(req.user.userId)
-			.populate('ingredients')
-			.populate({
-				path: 'recipes',
-				populate: { path: 'ingredients', select: 'name' },
-			});
+			.populate({ path: 'ingredients', select: '-__v' })
+			.populate({ path: 'recipes', select: '-ingredients -description -__v' });
 
 		if (!user) {
 			return res.status(401).json({ message: 'Not authorized' });

@@ -6,7 +6,7 @@ async function getAllRecipes(req, res, next) {
 		const { page } = req.query;
 
 		const options = { page, limit: 10 };
-		const option = { populate: { path: 'ingredients', select: 'name' } };
+		const option = { select: '-ingredients -description -__v' };
 
 		const results = await recipeModel.paginate({}, page ? { ...options, ...option } : option);
 
@@ -27,7 +27,10 @@ async function getAllRecipes(req, res, next) {
 async function getRecipeById(req, res, next) {
 	try {
 		const { id } = req.params;
-		const recipe = await recipeModel.findOne({ _id: id }).populate('ingredients');
+		const recipe = await recipeModel.findOne({ _id: id }).populate({
+			path: 'ingredients',
+			populate: { path: '_id', select: '-__v' },
+		});
 
 		!recipe ? res.status(404).json({ message: 'Not found' }) : res.status(200).json(recipe);
 	} catch (error) {
