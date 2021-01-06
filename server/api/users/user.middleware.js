@@ -60,55 +60,6 @@ async function validateToken(req, res, next) {
 	}
 }
 
-//The middleware validate user/recipe/ingredient Id
-function validateID(req, res, next) {
-	const { id } = req.params;
-
-	if (!ObjectId.isValid(id)) {
-		return res.status(400).send({ message: 'invalid id' });
-	}
-
-	next();
-}
-
-//The middleware validate ingredient fields before create
-function validateCreateIngredient(req, res, next) {
-	const createIngredientRules = Joi.object({
-		name: Joi.string().min(2).required(),
-		protein: Joi.number().min(0).required(),
-		fat: Joi.number().min(0).required(),
-		carbs: Joi.number().min(0).required(),
-		kcal: Joi.number().min(0).required(),
-	});
-
-	const validatedIngredient = createIngredientRules.validate(req.body);
-
-	if (validatedIngredient.error) {
-		return res.status(400).send({ message: 'missing required name field' });
-	}
-
-	next();
-}
-
-//The middleware validate ingredient fields before update
-function validateUpdateIngredient(req, res, next) {
-	const updateIngredientRules = Joi.object({
-		name: Joi.string().min(2),
-		protein: Joi.number().min(0),
-		fat: Joi.number().min(0),
-		carbs: Joi.number().min(0),
-		kcal: Joi.number().min(0),
-	}).min(1);
-
-	const validatedIngredient = updateIngredientRules.validate(req.body);
-
-	if (validatedIngredient.error) {
-		return res.status(400).send({ message: 'missing fields' });
-	}
-
-	next();
-}
-
 //The middleware validate recipe fields before create
 function validateCreateRecipe(req, res, next) {
 	const createRecipeRules = Joi.object({
@@ -159,11 +110,6 @@ module.exports = {
 	validateSignUpUser,
 	validateSignInUser,
 	validateToken,
-
-	validateID,
-
-	validateCreateIngredient,
-	validateUpdateIngredient,
 
 	validateCreateRecipe,
 	validateUpdateRecipe,

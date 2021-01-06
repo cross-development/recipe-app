@@ -11,18 +11,22 @@ const recipeSchema = new Schema({
 	category: { type: String, required: true },
 	cuisine: { type: String, required: true },
 	cookingTime: { type: String, required: true },
+	ingredients: [
+		{
+			_id: { type: ObjectId, ref: 'Ingredient' },
+			amount: { type: Number, required: true },
+			unit: {
+				type: String,
+				enum: ['кг', 'г', 'л', 'мл', 'шт', 'стакан', 'ст.л.', 'ч.л.', 'щепотка', 'по вкусу'],
+				required: true,
+			},
+		},
+	],
 	description: { type: String, required: true },
 	protein: { type: Number, required: true },
 	fat: { type: Number, required: true },
 	carbs: { type: Number, required: true },
 	kcal: { type: Number, required: true },
-	ingredients: [
-		{
-			_id: { type: ObjectId, ref: 'Ingredient' },
-			amount: { type: Number, required: true },
-			unit: { type: String, required: true },
-		},
-	],
 	authorID: { type: ObjectId, ref: 'User' },
 });
 

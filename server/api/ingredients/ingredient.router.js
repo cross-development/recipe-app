@@ -3,20 +3,20 @@ const { Router } = require('express');
 //Controller
 const ingredientController = require('./ingredient.controller');
 //Middleware
-const ingredientMiddleware = require('./ingredient.middleware');
+const middleware = require('../../middleware/middleware');
 
 const { getAllIngredients, getIngredientById, getIngredientByQuery } = ingredientController;
-const { validateIngredientId, validateIngredientQuery, validateIngredientPage } = ingredientMiddleware;
+const { validateId, validatePage, validateQuery } = middleware;
 
 const ingredientRouter = Router();
 
 // @ GET /api/ingredients
-ingredientRouter.get('/', validateIngredientPage, getAllIngredients);
+ingredientRouter.get('/', validatePage, getAllIngredients);
 
 // @ GET /api/ingredients/search (by query from req.query)
-ingredientRouter.get('/search', validateIngredientQuery, getIngredientByQuery);
+ingredientRouter.get('/search', validateQuery, getIngredientByQuery);
 
 // @ GET /api/ingredients/:id
-ingredientRouter.get('/:id', validateIngredientId, getIngredientById);
+ingredientRouter.get('/:id', validateId, getIngredientById);
 
 module.exports = ingredientRouter;

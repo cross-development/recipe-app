@@ -1,6 +1,5 @@
 //Models
 const userModel = require('./user.model');
-const ingredientModel = require('../ingredients/ingredient.model');
 const recipeModel = require('../recipes/recipe.model');
 //Crypt
 const bcrypt = require('bcrypt');
@@ -83,16 +82,16 @@ async function getCurrentUser(req, res, next) {
 	try {
 		const user = await userModel
 			.findById(req.user.userId)
-			.populate({ path: 'ingredients', select: '-__v' })
+			.populate({ path: 'favIngredients', select: 'name' })
 			.populate({ path: 'recipes', select: '-ingredients -description -__v' });
 
 		if (!user) {
 			return res.status(401).json({ message: 'Not authorized' });
 		}
 
-		const { username, email, recipes, ingredients } = user;
+		const { _id, username, email, recipes, favIngredients } = user;
 
-		return res.status(200).json({ username, email, recipes, ingredients });
+		return res.status(200).json({ userId: _id, username, email, recipes, favIngredients });
 	} catch (error) {
 		next(error);
 	}
@@ -130,37 +129,47 @@ async function updateRecipe(req, res, next) {
 	}
 }
 
-async function addIngredient(req, res, next) {
+async function addIngredientToFav(req, res, next) {
 	try {
+		const { id } = req.params;
 		const user = await userModel.findById(req.user.userId);
 
 		if (!user) {
 			return res.status(401).json({ message: 'Not authorized' });
 		}
 
-		const ingredient = await ingredientModel.create({ ...req.body, authorID: user._id });
+		if (user.favIngredients.includes(id)) {
+			return res.status(409).json({ message: 'Ingredient already exists' });
+		}
 
-		await userModel.findByIdAndUpdate(
+		const updatedUser = await userModel.findByIdAndUpdate(
 			user._id,
-			{ $push: { ingredients: ingredient._id } },
+			{ $push: { favIngredients: id } },
 			{ new: true },
 		);
 
-		return res.status(201).json(ingredient);
+		return res.status(201).json({ favIngredients: updatedUser.favIngredients });
 	} catch (error) {
 		next(error);
 	}
 }
 
-async function removeIngredient(req, res, next) {
+async function removeIngredientFromFav(req, res, next) {
 	try {
-	} catch (error) {
-		next(error);
-	}
-}
+		const { id } = req.params;
+		const user = await userModel.findById(req.user.userId);
 
-async function updateIngredient(req, res, next) {
-	try {
+		if (!user) {
+			return res.status(401).json({ message: 'Not authorized' });
+		}
+
+		if (!user.favIngredients.includes(id)) {
+			return res.status(404).json({ message: 'Ingredient not found' });
+		}
+
+		await userModel.findByIdAndUpdate(user._id, { $pull: { favIngredients: id } }, { new: true });
+
+		return res.status(200).json({ id });
 	} catch (error) {
 		next(error);
 	}
@@ -177,7 +186,6 @@ module.exports = {
 	removeRecipe,
 	updateRecipe,
 
-	addIngredient,
-	removeIngredient,
-	updateIngredient,
+	addIngredientToFav,
+	removeIngredientFromFav,
 };

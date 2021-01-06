@@ -4,14 +4,15 @@ const { Router } = require('express');
 const userController = require('./user.controller');
 //Middleware
 const userMiddleware = require('./user.middleware');
+const middleware = require('../../middleware/middleware');
 
 const { singUpUser, signInUser, signOutUser, getCurrentUser } = userController;
 const { addRecipe, removeRecipe, updateRecipe } = userController;
-const { addIngredient, removeIngredient, updateIngredient } = userController;
+const { addIngredientToFav, removeIngredientFromFav } = userController;
 
-const { validateSignUpUser, validateSignInUser, validateToken, validateID } = userMiddleware;
+const { validateSignUpUser, validateSignInUser, validateToken } = userMiddleware;
 const { validateCreateRecipe, validateUpdateRecipe } = userMiddleware;
-const { validateCreateIngredient, validateUpdateIngredient } = userMiddleware;
+const { validateId } = middleware;
 
 const userRouter = Router();
 
@@ -31,24 +32,15 @@ userRouter.get('/current', validateToken, getCurrentUser);
 userRouter.post('/recipes', validateToken, validateCreateRecipe, addRecipe);
 
 // RECIPES @ DELETE /api/users/recipes/:id
-userRouter.delete('/recipes/:id', validateToken, validateID, removeRecipe);
+userRouter.delete('/recipes/:id', validateToken, validateId, removeRecipe);
 
 // RECIPES @ PATCH /api/users/recipes/:id
-userRouter.patch('/recipes/:id', validateToken, validateID, validateUpdateRecipe, updateRecipe);
-
-// INGREDIENTS @ POST /api/users/ingredients
-userRouter.post('/ingredients', validateToken, validateCreateIngredient, addIngredient);
-
-// INGREDIENTS @ DELETE /api/users/ingredients/:id
-userRouter.delete('/ingredients/:id', validateToken, validateID, removeIngredient);
+userRouter.patch('/recipes/:id', validateToken, validateId, validateUpdateRecipe, updateRecipe);
 
 // INGREDIENTS @ PATCH /api/users/ingredients/:id
-userRouter.patch(
-	'/ingredients/:id',
-	validateToken,
-	validateID,
-	validateUpdateIngredient,
-	updateIngredient,
-);
+userRouter.patch('/ingredients/:id', validateToken, validateId, addIngredientToFav);
+
+// INGREDIENTS @ DELETE /api/users/ingredients/:id
+userRouter.delete('/ingredients/:id', validateToken, validateId, removeIngredientFromFav);
 
 module.exports = userRouter;

@@ -11,7 +11,7 @@ const userSchema = new Schema({
 	password: { type: String, required: true },
 	token: { type: String, required: false },
 	recipes: [{ type: ObjectId, ref: 'Recipe' }],
-	ingredients: [{ type: ObjectId, ref: 'Ingredient' }],
+	favIngredients: [{ type: ObjectId, ref: 'Ingredient' }],
 });
 
 module.exports = model('User', userSchema);

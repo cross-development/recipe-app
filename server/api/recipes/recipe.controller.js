@@ -27,6 +27,7 @@ async function getAllRecipes(req, res, next) {
 async function getRecipeById(req, res, next) {
 	try {
 		const { id } = req.params;
+
 		const recipe = await recipeModel.findOne({ _id: id }).populate({
 			path: 'ingredients',
 			populate: { path: '_id', select: '-__v' },
