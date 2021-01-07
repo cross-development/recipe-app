@@ -1,5 +1,6 @@
 //Core
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 //Components
 import { Register } from 'components/Auth';
 import { Error } from 'components/Commons';
@@ -18,11 +19,13 @@ const RegisterPage = () => {
 	const { error } = useSelector(state => state.auth);
 	const dispatch = useDispatch();
 
-	const handleSubmit = values => {
-		const { username, email, password } = values;
+	const history = useHistory();
+
+	const handleSubmit = ({ username, email, password }) => {
 		const credential = { username, email, password };
 
 		dispatch(authOperations.userSignUp({ credential }));
+		history.replace('/login');
 	};
 
 	return (
