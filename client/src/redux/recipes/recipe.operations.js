@@ -1,0 +1,34 @@
+//Core
+import axios from 'axios';
+//Redux
+import recipeActions from './recipe.actions';
+
+const getAllRecipes = (page = 1) => dispatch => {
+	dispatch(recipeActions.getAllRecipesRequest());
+
+	axios
+		.get(`/api/recipes?page=${page}`)
+		.then(({ data: { results } }) => dispatch(recipeActions.getAllRecipesSuccess(results)))
+		.catch(error => dispatch(recipeActions.getAllRecipesFailure(error)));
+};
+
+const getRecipeByQuery = ({ query }) => dispatch => {
+	dispatch(recipeActions.getRecipeByQueryRequest());
+
+	axios
+		.get(`/api/recipes/search?query=${query}`)
+		.then(({ data: { results } }) => dispatch(recipeActions.getRecipeByQuerySuccess(results)))
+		.catch(error => dispatch(recipeActions.getRecipeByQueryFailure(error)));
+};
+
+const getRecipeById = ({ id }) => dispatch => {
+	dispatch(recipeActions.getRecipeByIdRequest());
+
+	axios
+		.get(`/api/recipes/${id}`)
+		.then(data => dispatch(recipeActions.getRecipeByIdSuccess(data)))
+		.catch(error => dispatch(recipeActions.getRecipeByIdFailure(error)));
+};
+
+const recipeOperations = { getAllRecipes, getRecipeByQuery, getRecipeById };
+export default recipeOperations;
