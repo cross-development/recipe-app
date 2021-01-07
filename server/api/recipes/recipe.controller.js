@@ -1,5 +1,7 @@
 //Model
 const recipeModel = require('./recipe.model');
+//Utils
+const prettyResponse = require('../../utils/prettyResponse');
 
 async function getAllRecipes(req, res, next) {
 	try {
@@ -9,14 +11,7 @@ async function getAllRecipes(req, res, next) {
 		const option = { select: '-ingredients -description -__v' };
 
 		const results = await recipeModel.paginate({}, page ? { ...options, ...option } : option);
-
-		const response = {
-			results: results.docs,
-			limitResults: results.limit,
-			totalResults: results.totalDocs,
-			page: results.page,
-			totalPages: results.totalPages,
-		};
+		const response = prettyResponse(results);
 
 		return res.status(200).json(response);
 	} catch (error) {
@@ -41,12 +36,13 @@ async function getRecipeById(req, res, next) {
 
 async function getRecipeByQuery(req, res, next) {
 	try {
-		const { query } = req.query;
-		const recipe = await recipeModel
-			.find({ name: { $regex: query, $options: 'i' } })
-			.populate('ingredients');
+		const query = { name: { $regex: req.query.query, $options: 'i' } };
+		const options = { select: '-ingredients -description -__v' };
 
-		!recipe ? res.status(404).json({ message: 'Not found' }) : res.status(200).json(recipe);
+		const results = await recipeModel.paginate(query, options);
+		const response = prettyResponse(results);
+
+		!response ? res.status(404).json({ message: 'Not found' }) : res.status(200).json(response);
 	} catch (error) {
 		next(error);
 	}

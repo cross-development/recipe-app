@@ -1,5 +1,7 @@
 //Model
 const ingredientModel = require('./ingredient.model');
+//Utils
+const prettyResponse = require('../../utils/prettyResponse');
 
 async function getAllIngredients(req, res, next) {
 	try {
@@ -9,14 +11,7 @@ async function getAllIngredients(req, res, next) {
 		const option = { select: 'name' };
 
 		const results = await ingredientModel.paginate({}, page ? { ...options, ...option } : option);
-
-		const response = {
-			results: results.docs,
-			limitResults: results.limit,
-			totalResults: results.totalDocs,
-			page: results.page,
-			totalPages: results.totalPages,
-		};
+		const response = prettyResponse(results);
 
 		return res.status(200).json(response);
 	} catch (error) {
@@ -37,12 +32,13 @@ async function getIngredientById(req, res, next) {
 
 async function getIngredientByQuery(req, res, next) {
 	try {
-		const { query } = req.query;
-		const ingredient = await ingredientModel
-			.find({ name: { $regex: query, $options: 'i' } })
-			.select('-__v');
+		const query = { name: { $regex: req.query.query, $options: 'i' } };
+		const options = { select: '-__v' };
 
-		!ingredient ? res.status(404).json({ message: 'Not found' }) : res.status(200).json(ingredient);
+		const results = await ingredientModel.paginate(query, options);
+		const response = prettyResponse(results);
+
+		!response ? res.status(404).json({ message: 'Not found' }) : res.status(200).json(response);
 	} catch (error) {
 		next(error);
 	}
