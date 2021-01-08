@@ -7,7 +7,9 @@ import SideBar from '../SideBar';
 import { Layout, Loader } from '../Commons';
 //Redux
 import { useSelector, useDispatch } from 'react-redux';
-// import { authOperations } from 'redux/auth';
+import { authOperations } from 'redux/auth';
+import { recipeOperations } from 'redux/recipes';
+import { ingredientOperations } from 'redux/ingredients';
 //Routes
 import routes from 'router';
 import PublicRoute from 'router/PublicRoute';
@@ -18,8 +20,20 @@ const App = () => {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		// dispatch(authOperations.getCurrentUser());
+		dispatch(authOperations.getCurrentUser());
 	}, [dispatch]);
+
+	useEffect(() => {
+		if (user) {
+			dispatch(recipeOperations.getAllRecipes());
+		}
+	}, [dispatch, user]);
+
+	useEffect(() => {
+		if (user) {
+			dispatch(ingredientOperations.getAllIngredients());
+		}
+	}, [dispatch, user]);
 
 	return (
 		<Router>
