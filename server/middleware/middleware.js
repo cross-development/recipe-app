@@ -1,31 +1,30 @@
-//Mongoose validation ObjID
+//Core
 const {
 	Types: { ObjectId },
 } = require('mongoose');
+//Validate
+const Joi = require('joi');
+//Configs
+const configs = require('../configs/configs');
 
-function validateQuery(req, res, next) {
-	const { query } = req.query;
+function validateQueryParams(req, res, next) {
+	const { minPageNumber, minLimitNumber, minQueryLength } = configs.queryParams;
 
-	if (!query || query.length < 2) {
-		return res.status(400).send({ message: 'invalid query' });
+	const createQueryRules = Joi.object({
+		page: Joi.number().min(minPageNumber).default(minPageNumber),
+		limit: Joi.number().min(minLimitNumber).default(minLimitNumber),
+		query: Joi.string().min(minQueryLength),
+	});
+
+	const validatedQueryParams = createQueryRules.validate(req.query);
+
+	if (validatedQueryParams.error) {
+		const message = validatedQueryParams.error.details[0].message;
+
+		return res.status(400).json({ message });
 	}
 
-	next();
-}
-
-function validatePage(req, res, next) {
-	const { page } = req.query;
-
-	if (!page && page !== '') {
-		return next();
-	}
-
-	const defaultPage = 1;
-	const isPageValid = Number(page) && Number(page) >= defaultPage;
-
-	if (!isPageValid) {
-		return res.status(400).send({ message: 'invalid page' });
-	}
+	req.query = validatedQueryParams.value;
 
 	next();
 }
@@ -41,7 +40,6 @@ function validateId(req, res, next) {
 }
 
 module.exports = {
-	validateQuery,
-	validatePage,
+	validateQueryParams,
 	validateId,
 };

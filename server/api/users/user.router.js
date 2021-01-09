@@ -7,8 +7,8 @@ const userMiddleware = require('./user.middleware');
 const middleware = require('../../middleware/middleware');
 
 const { singUpUser, signInUser, signOutUser, getCurrentUser } = userController;
-const { addRecipe, removeRecipe, updateRecipe } = userController;
 const { addIngredientToFav, removeIngredientFromFav } = userController;
+const { addRecipe, removeRecipe, updateRecipe } = userController;
 
 const { validateSignUpUser, validateSignInUser, validateToken } = userMiddleware;
 const { validateCreateRecipe, validateUpdateRecipe } = userMiddleware;

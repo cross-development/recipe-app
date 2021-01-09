@@ -1,4 +1,8 @@
 function prettyResponse(results) {
+	if (results.page > results.totalPages) {
+		return null;
+	}
+
 	if (results.docs.length < 1) {
 		return null;
 	}

@@ -5,6 +5,8 @@ const {
 	Types: { ObjectId },
 } = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate-v2');
+//Configs
+const configs = require('../../configs/configs');
 
 const recipeSchema = new Schema({
 	name: { type: String, required: true },
@@ -17,7 +19,7 @@ const recipeSchema = new Schema({
 			amount: { type: Number, required: true },
 			unit: {
 				type: String,
-				enum: ['кг', 'г', 'л', 'мл', 'шт', 'стакан', 'ст.л.', 'ч.л.', 'щепотка', 'по вкусу'],
+				enum: configs.recipes.ingredientUnits,
 				required: true,
 			},
 		},

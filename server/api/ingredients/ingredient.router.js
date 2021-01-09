@@ -5,16 +5,13 @@ const ingredientController = require('./ingredient.controller');
 //Middleware
 const middleware = require('../../middleware/middleware');
 
-const { getAllIngredients, getIngredientById, getIngredientByQuery } = ingredientController;
-const { validateId, validatePage, validateQuery } = middleware;
+const { getAllIngredients, getIngredientById } = ingredientController;
+const { validateId, validateQueryParams } = middleware;
 
 const ingredientRouter = Router();
 
 // @ GET /api/ingredients
-ingredientRouter.get('/', validatePage, getAllIngredients);
-
-// @ GET /api/ingredients/search (by query from req.query)
-ingredientRouter.get('/search', validateQuery, getIngredientByQuery);
+ingredientRouter.get('/', validateQueryParams, getAllIngredients);
 
 // @ GET /api/ingredients/:id
 ingredientRouter.get('/:id', validateId, getIngredientById);
