@@ -1,17 +1,31 @@
 //Core
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+//Components
+import Logo from './Logo';
+import AuthMenu from './AuthMenu';
+import UserMenu from './UserMenu';
+import SearchBar from './SearchBar';
+//Redux
+import { useSelector } from 'react-redux';
+//Styles
+import { StyledHeader } from './AppBar.styles';
 
 const AppBar = () => {
-    return (
-        <div>
-            AppBar
-        </div>
-    )
-}
+	const { user } = useSelector(state => state.auth);
 
-AppBar.propTypes = {
+	const handleSubmit = value => {
+		console.log(value);
+	};
 
-}
+	return (
+		<StyledHeader>
+			<Logo />
 
-export default AppBar
+			<SearchBar onSubmit={handleSubmit} />
+
+			{user ? <UserMenu /> : <AuthMenu />}
+		</StyledHeader>
+	);
+};
+
+export default AppBar;

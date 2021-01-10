@@ -1,17 +1,33 @@
 //Core
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+//Styles
+import {
+	StyledNavContainer,
+	StyledNavMenu,
+	StyledNavItem,
+	StyledNavLink,
+	StyledSignIn,
+	StyledSignUp,
+} from './AuthMenu.styles';
 
-const AuthMenu = {} => {
-    return (
-        <div>
-            AuthMenu
-        </div>
-    )
-}
+const AuthMenu = () => (
+	<StyledNavContainer>
+		<StyledNavMenu>
+			<StyledNavItem>
+				<StyledNavLink to="/login">
+					<StyledSignIn />
+					Sign In
+				</StyledNavLink>
+			</StyledNavItem>
 
-AuthMenu.propTypes = {
+			<StyledNavItem>
+				<StyledNavLink to="/register">
+					<StyledSignUp />
+					Sign Up
+				</StyledNavLink>
+			</StyledNavItem>
+		</StyledNavMenu>
+	</StyledNavContainer>
+);
 
-}
-
-export default AuthMenu
+export default AuthMenu;
