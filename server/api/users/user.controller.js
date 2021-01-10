@@ -89,9 +89,7 @@ async function getCurrentUser(req, res, next) {
 			return res.status(401).json({ message: 'Not authorized' });
 		}
 
-		const { _id, username, email, recipes, favIngredients } = user;
-
-		return res.status(200).json({ userId: _id, username, email, recipes, favIngredients });
+		return res.status(200).json({ userId: user._id, username: user.username, email: user.email });
 	} catch (error) {
 		next(error);
 	}

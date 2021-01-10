@@ -43,4 +43,6 @@ userRouter.patch('/ingredients/:id', validateToken, validateId, addIngredientToF
 // INGREDIENTS @ DELETE /api/users/ingredients/:id
 userRouter.delete('/ingredients/:id', validateToken, validateId, removeIngredientFromFav);
 
+//TODO: add features to get custom recipes and featured ingredients
+
 module.exports = userRouter;
