@@ -12,16 +12,16 @@ const getAllRecipes = (page = 1) => dispatch => {
 		.catch(error => dispatch(recipeActions.getAllRecipesFailure(error)));
 };
 
-const getRecipeByQuery = ({ query }) => dispatch => {
+const getRecipeByQuery = (query, page = 1) => dispatch => {
 	dispatch(recipeActions.getRecipeByQueryRequest());
 
 	axios
-		.get(`/api/recipes/search?query=${query}`)
+		.get(`/api/recipes?query=${query}&page=${page}`)
 		.then(({ data: { results } }) => dispatch(recipeActions.getRecipeByQuerySuccess(results)))
 		.catch(error => dispatch(recipeActions.getRecipeByQueryFailure(error)));
 };
 
-const getRecipeById = ({ id }) => dispatch => {
+const getRecipeById = id => dispatch => {
 	dispatch(recipeActions.getRecipeByIdRequest());
 
 	axios

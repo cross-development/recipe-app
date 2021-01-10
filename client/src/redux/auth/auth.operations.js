@@ -46,7 +46,7 @@ const userSighOut = () => dispatch => {
 	dispatch(authActions.userSighOutRequest());
 
 	axios
-		.delete('/api/auth/logout')
+		.post('/api/auth/logout')
 		.then(() => {
 			token.unset();
 			dispatch(authActions.userSighOutSuccess());

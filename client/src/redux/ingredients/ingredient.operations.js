@@ -12,18 +12,18 @@ const getAllIngredients = (page = 1) => dispatch => {
 		.catch(error => dispatch(ingredientActions.getAllIngredientsFailure(error)));
 };
 
-const getIngredientByQuery = ({ query }) => dispatch => {
+const getIngredientByQuery = (query, page = 1) => dispatch => {
 	dispatch(ingredientActions.getIngredientByQueryRequest());
 
 	axios
-		.get(`/api/ingredients/search?query=${query}`)
+		.get(`/api/ingredients?query=${query}&page=${page}`)
 		.then(({ data: { results } }) =>
 			dispatch(ingredientActions.getIngredientByQuerySuccess(results)),
 		)
 		.catch(error => dispatch(ingredientActions.getIngredientByQueryFailure(error)));
 };
 
-const getIngredientById = ({ id }) => dispatch => {
+const getIngredientById = id => dispatch => {
 	dispatch(ingredientActions.getIngredientByIdRequest());
 
 	axios
