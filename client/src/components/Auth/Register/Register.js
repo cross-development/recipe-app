@@ -4,11 +4,9 @@ import PropTypes from 'prop-types';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 //Styles
-import { StyledRequireMessage, StyledButton } from './Register.styles';
-import { StyledFormWrap } from './Register.styles';
 import { StyledEmailIcon, StyledPassIcon, StyledNameIcon } from './Register.styles';
-import { StyledForm, StyledLabel, StyledInput } from './Register.styles';
-import { StyledLink, StyledContainer } from './Register.styles';
+import { StyledForm, StyledLabel, StyledInput, StyledButton } from './Register.styles';
+import { StyledContainer, StyledFormWrap, StyledRequireMessage } from './Register.styles';
 
 const SignupSchema = Yup.object().shape({
 	username: Yup.string().min(4, 'Too Short!').max(50, 'Too Long!').required('Required'),
@@ -102,8 +100,6 @@ const Register = ({ userInfo, handleSubmit }) => (
 						</StyledLabel>
 
 						<StyledButton type="submit">Регистрация</StyledButton>
-
-						<StyledLink to="/login">Вход</StyledLink>
 					</StyledForm>
 				)}
 			</Formik>

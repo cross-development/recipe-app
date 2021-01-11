@@ -90,31 +90,6 @@ export const StyledButton = styled.button`
 	}
 `;
 
-export const StyledLink = styled(Link)`
-	background-color: transparent;
-	border: 1px solid #fff;
-	color: #fff;
-	border-radius: 20px;
-	padding: 0.7rem 0;
-	cursor: pointer;
-	transition: all 250ms linear;
-	outline: none;
-	width: 100%;
-	margin: 0 auto;
-	text-transform: uppercase;
-	text-align: center;
-	font-size: 1.1em;
-	text-decoration: none;
-
-	&:hover {
-		box-shadow: 0px 5px 10px 0px rgba(255, 255, 255, 0.3);
-	}
-
-	@media (min-width: 1440px) {
-		width: 50%;
-	}
-`;
-
 export const StyledRequireMessage = styled.div`
 	position: absolute;
 	bottom: 26px;

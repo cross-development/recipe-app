@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 //Styles
-import { StyledButton, StyledLink, StyledFormWrap } from './Login.styles';
+import { StyledButton, StyledFormWrap } from './Login.styles';
 import { StyledRequireMessage, StyledEmailIcon, StyledPassIcon } from './Login.styles';
 import { StyledForm, StyledLabel, StyledInput, StyledContainer } from './Login.styles';
 
@@ -62,8 +62,6 @@ const Login = ({ userInfo, handleSubmit }) => (
 						</StyledLabel>
 
 						<StyledButton type="submit">Вход</StyledButton>
-
-						<StyledLink to="/register">Регистрация</StyledLink>
 					</StyledForm>
 				)}
 			</Formik>

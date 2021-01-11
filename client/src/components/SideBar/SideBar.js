@@ -1,17 +1,14 @@
 //Core
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+//Components
+import Navigation from './Navigation';
+//Styles
+import { StyledAside } from './SideBar.styles';
 
-const SideBar = () => {
-    return (
-        <div>
-            SideBar
-        </div>
-    )
-}
+const SideBar = () => (
+	<StyledAside>
+		<Navigation />
+	</StyledAside>
+);
 
-SideBar.propTypes = {
-
-}
-
-export default SideBar
+export default SideBar;

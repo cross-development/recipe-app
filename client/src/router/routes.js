@@ -6,8 +6,9 @@ const routes = [
 		path: '/',
 		label: 'Home',
 		exact: true,
-		private: true,
+		private: false,
 		restricted: false,
+		isNavigate: true,
 		component: lazy(() => import('pages/HomePage' /* webpackChunkName: "home-page" */)),
 	},
 	{
@@ -16,6 +17,7 @@ const routes = [
 		exact: true,
 		private: false,
 		restricted: true,
+		isNavigate: false,
 		component: lazy(() => import('pages/RegisterPage' /* webpackChunkName: "register-page"*/)),
 	},
 	{
@@ -24,7 +26,50 @@ const routes = [
 		exact: true,
 		private: false,
 		restricted: true,
+		isNavigate: false,
 		component: lazy(() => import('pages/LoginPage' /* webpackChunkName: "login-page"*/)),
+	},
+	{
+		path: '/recipes',
+		label: 'Recipes',
+		exact: true,
+		private: false,
+		restricted: false,
+		isNavigate: true,
+		component: lazy(() => import('pages/RecipesPage' /* webpackChunkName: "recipes-page"*/)),
+	},
+	{
+		path: '/recipes/:id',
+		label: 'RecipeDetails',
+		exact: false,
+		private: false,
+		restricted: false,
+		isNavigate: false,
+		component: lazy(() =>
+			import('pages/RecipeDetailsPage' /* webpackChunkName: "recipe-details-page"*/),
+		),
+	},
+	{
+		path: '/ingredients',
+		label: 'Ingredients',
+		exact: true,
+		private: false,
+		restricted: false,
+		isNavigate: true,
+		component: lazy(() =>
+			import('pages/IngredientsPage' /* webpackChunkName: "ingredients-page"*/),
+		),
+	},
+	{
+		path: '/ingredients/:id',
+		label: 'IngredientDetails',
+		exact: false,
+		private: false,
+		restricted: false,
+		isNavigate: false,
+		component: lazy(() =>
+			import('pages/IngredientDetailsPage' /* webpackChunkName: "ingredients-details-page"*/),
+		),
 	},
 ];
 
