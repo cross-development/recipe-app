@@ -1,12 +1,8 @@
 //Core
-import React from 'react'
+import React from 'react';
 
 const HomePage = () => {
-    return (
-        <div>
-            HomePage
-        </div>
-    )
-}
+	return <div>asdasd</div>;
+};
 
-export default HomePage
+export default HomePage;

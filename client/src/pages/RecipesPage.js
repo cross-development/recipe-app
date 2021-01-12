@@ -1,12 +1,20 @@
 //Core
-import React from 'react'
+import React from 'react';
+import { useLocation } from 'react-router-dom';
+//Components
+import RecipeTable from 'components/Recipes/RecipeTable';
+//Redux
+import { useSelector } from 'react-redux';
 
 const RecipesPage = () => {
-    return (
-        <div>
-            RecipesPage
-        </div>
-    )
-}
+	const location = useLocation();
+	const { items } = useSelector(state => state.recipes);
 
-export default RecipesPage
+	return (
+		<div>
+			<RecipeTable recipes={items} location={location} />
+		</div>
+	);
+};
+
+export default RecipesPage;

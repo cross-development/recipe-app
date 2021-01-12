@@ -10,11 +10,16 @@ import {
 	StyledSignUp,
 } from './AuthMenu.styles';
 
-const AuthMenu = () => (
+const AuthMenu = ({ location }) => (
 	<StyledNavContainer>
 		<StyledNavMenu>
 			<StyledNavItem>
-				<StyledNavLink to="/login">
+				<StyledNavLink
+					to={{
+						pathname: '/login',
+						state: { from: location },
+					}}
+				>
 					<StyledSignIn />
 					Sign In
 				</StyledNavLink>

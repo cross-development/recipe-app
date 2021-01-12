@@ -28,7 +28,7 @@ const getIngredientById = id => dispatch => {
 
 	axios
 		.get(`/api/ingredients/${id}`)
-		.then(data => dispatch(ingredientActions.getIngredientByIdSuccess(data)))
+		.then(({ data }) => dispatch(ingredientActions.getIngredientByIdSuccess(data)))
 		.catch(error => dispatch(ingredientActions.getIngredientByIdFailure(error)));
 };
 

@@ -26,7 +26,7 @@ const getRecipeById = id => dispatch => {
 
 	axios
 		.get(`/api/recipes/${id}`)
-		.then(data => dispatch(recipeActions.getRecipeByIdSuccess(data)))
+		.then(({ data }) => dispatch(recipeActions.getRecipeByIdSuccess(data)))
 		.catch(error => dispatch(recipeActions.getRecipeByIdFailure(error)));
 };
 

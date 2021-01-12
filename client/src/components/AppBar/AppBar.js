@@ -1,5 +1,6 @@
 //Core
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 //Components
 import Logo from './Logo';
 import AuthMenu from './AuthMenu';
@@ -11,6 +12,8 @@ import { useSelector } from 'react-redux';
 import { StyledHeader } from './AppBar.styles';
 
 const AppBar = () => {
+	const location = useLocation();
+
 	const { user } = useSelector(state => state.auth);
 
 	const handleSubmit = value => {
@@ -23,7 +26,7 @@ const AppBar = () => {
 
 			<SearchBar onSubmit={handleSubmit} />
 
-			{user ? <UserMenu /> : <AuthMenu />}
+			{user ? <UserMenu /> : <AuthMenu location={location} />}
 		</StyledHeader>
 	);
 };

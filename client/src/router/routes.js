@@ -71,6 +71,26 @@ const routes = [
 			import('pages/IngredientDetailsPage' /* webpackChunkName: "ingredients-details-page"*/),
 		),
 	},
+	{
+		path: '/fav-recipes',
+		label: 'My Recipes',
+		exact: true,
+		private: true,
+		restricted: false,
+		isNavigate: true,
+		component: lazy(() => import('pages/FavRecipesPage' /* webpackChunkName: "fav-recipes-page"*/)),
+	},
+	{
+		path: '/fav-ingredients',
+		label: 'My Ingredients',
+		exact: true,
+		private: true,
+		restricted: false,
+		isNavigate: true,
+		component: lazy(() =>
+			import('pages/FavIngredientsPage' /* webpackChunkName: "fav-ingredients-page"*/),
+		),
+	},
 ];
 
 export default routes;
