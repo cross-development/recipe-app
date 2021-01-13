@@ -8,11 +8,11 @@ const middleware = require('../../middleware/middleware');
 
 const { singUpUser, signInUser, signOutUser, getCurrentUser } = userController;
 const { addIngredientToFav, removeIngredientFromFav } = userController;
-const { addRecipe, removeRecipe, updateRecipe } = userController;
+const { getUserRecipes, addRecipe, removeRecipe, updateRecipe } = userController;
 
 const { validateSignUpUser, validateSignInUser, validateToken } = userMiddleware;
 const { validateCreateRecipe, validateUpdateRecipe } = userMiddleware;
-const { validateId } = middleware;
+const { validateId, validateQueryParams } = middleware;
 
 const userRouter = Router();
 
@@ -27,6 +27,9 @@ userRouter.post('/logout', validateToken, signOutUser);
 
 // USERS @ GET /api/users/current
 userRouter.get('/current', validateToken, getCurrentUser);
+
+// RECIPES @ GET /api/users/:id/recipes
+userRouter.get('/recipes', validateToken, validateQueryParams, getUserRecipes);
 
 // RECIPES @ POST /api/users/recipes
 userRouter.post('/recipes', validateToken, validateCreateRecipe, addRecipe);

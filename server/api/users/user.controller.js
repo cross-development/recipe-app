@@ -4,6 +4,8 @@ const recipeModel = require('../recipes/recipe.model');
 //Crypt
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+//Utils
+const prettyResponse = require('../../utils/prettyResponse');
 
 async function singUpUser(req, res, next) {
 	try {
@@ -95,6 +97,24 @@ async function getCurrentUser(req, res, next) {
 	}
 }
 
+async function getUserRecipes(req, res, next) {
+	try {
+		const {
+			query: { page, limit },
+			user: { userId },
+		} = req;
+
+		const options = { page, limit, select: '-ingredients -description -__v' };
+
+		const results = await recipeModel.paginate({ authorID: userId }, options);
+		const response = prettyResponse(results);
+
+		!response ? res.status(404).json({ message: 'Not found' }) : res.status(200).json(response);
+	} catch (error) {
+		next(error);
+	}
+}
+
 async function addRecipe(req, res, next) {
 	try {
 		const user = await userModel.findById(req.user.userId);
@@ -180,6 +200,7 @@ module.exports = {
 
 	getCurrentUser,
 
+	getUserRecipes,
 	addRecipe,
 	removeRecipe,
 	updateRecipe,
