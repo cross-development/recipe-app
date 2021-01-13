@@ -9,7 +9,6 @@ import { Layout, Loader } from '../Commons';
 import { useDispatch } from 'react-redux';
 import { authOperations } from 'redux/auth';
 import { recipeOperations } from 'redux/recipes';
-import { ingredientOperations } from 'redux/ingredients';
 //Routes
 import routes from 'router';
 import PublicRoute from 'router/PublicRoute';
@@ -24,7 +23,6 @@ const App = () => {
 	useEffect(() => {
 		dispatch(authOperations.getCurrentUser());
 		dispatch(recipeOperations.getAllRecipes());
-		dispatch(ingredientOperations.getAllIngredients());
 	}, [dispatch]);
 
 	return (

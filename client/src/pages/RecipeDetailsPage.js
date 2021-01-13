@@ -15,7 +15,7 @@ const RecipeDetailsPage = () => {
 
 	const {
 		auth: { user },
-		recipes: { item: recipe, loading, error },
+		recipes: { recipeDetails, loading, error },
 	} = useSelector(state => state);
 
 	const dispatch = useDispatch();
@@ -36,11 +36,11 @@ const RecipeDetailsPage = () => {
 
 			{error && error.response.status === 404 && <NotFound />}
 
-			{recipe && (
+			{recipeDetails && (
 				<RecipeDetails
-					recipe={recipe}
-					isFavorite={isFavorite}
 					existUser={user}
+					recipe={recipeDetails}
+					isFavorite={isFavorite}
 					onAddToFavorite={handleAddToFavorite}
 				/>
 			)}

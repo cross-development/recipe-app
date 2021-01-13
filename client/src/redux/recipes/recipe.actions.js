@@ -13,6 +13,10 @@ const getRecipeByIdRequest = createAction('recipes/getRecipeByIdRequest');
 const getRecipeByIdSuccess = createAction('recipes/getRecipeByIdSuccess');
 const getRecipeByIdFailure = createAction('recipes/getRecipeByIdFailure');
 
+const getUserRecipesRequest = createAction('recipes/getUserRecipesRequest');
+const getUserRecipesSuccess = createAction('recipes/getUserRecipesSuccess');
+const getUserRecipesFailure = createAction('recipes/getUserRecipesFailure');
+
 const recipeActions = {
 	getAllRecipesRequest,
 	getAllRecipesSuccess,
@@ -25,5 +29,9 @@ const recipeActions = {
 	getRecipeByIdRequest,
 	getRecipeByIdSuccess,
 	getRecipeByIdFailure,
+
+	getUserRecipesRequest,
+	getUserRecipesSuccess,
+	getUserRecipesFailure,
 };
 export default recipeActions;

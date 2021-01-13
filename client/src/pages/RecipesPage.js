@@ -8,11 +8,11 @@ import { useSelector } from 'react-redux';
 
 const RecipesPage = () => {
 	const location = useLocation();
-	const { items } = useSelector(state => state.recipes);
+	const { allRecipes } = useSelector(state => state.recipes);
 
 	return (
 		<div>
-			<RecipeTable recipes={items} location={location} />
+			<RecipeTable recipes={allRecipes} location={location} />
 		</div>
 	);
 };

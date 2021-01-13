@@ -30,5 +30,14 @@ const getRecipeById = id => dispatch => {
 		.catch(error => dispatch(recipeActions.getRecipeByIdFailure(error)));
 };
 
-const recipeOperations = { getAllRecipes, getRecipeByQuery, getRecipeById };
+const getUserRecipes = () => dispatch => {
+	dispatch(recipeActions.getUserRecipesRequest());
+
+	axios
+		.get(`/api/users/recipes`)
+		.then(({ data: { results } }) => dispatch(recipeActions.getUserRecipesSuccess(results)))
+		.catch(error => dispatch(recipeActions.getUserRecipesFailure(error)));
+};
+
+const recipeOperations = { getAllRecipes, getRecipeByQuery, getRecipeById, getUserRecipes };
 export default recipeOperations;

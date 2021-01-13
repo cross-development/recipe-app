@@ -4,7 +4,7 @@ import { lazy } from 'react';
 const routes = [
 	{
 		path: '/',
-		label: 'Home',
+		label: 'Главная',
 		exact: true,
 		private: false,
 		restricted: false,
@@ -13,7 +13,7 @@ const routes = [
 	},
 	{
 		path: '/register',
-		label: 'Register',
+		label: 'Регистрация',
 		exact: true,
 		private: false,
 		restricted: true,
@@ -22,7 +22,7 @@ const routes = [
 	},
 	{
 		path: '/login',
-		label: 'Login',
+		label: 'Вход',
 		exact: true,
 		private: false,
 		restricted: true,
@@ -31,7 +31,7 @@ const routes = [
 	},
 	{
 		path: '/recipes',
-		label: 'Recipes',
+		label: 'Рецепты',
 		exact: true,
 		private: false,
 		restricted: false,
@@ -40,7 +40,7 @@ const routes = [
 	},
 	{
 		path: '/recipes/:id',
-		label: 'RecipeDetails',
+		label: 'Рецепт',
 		exact: false,
 		private: false,
 		restricted: false,
@@ -51,7 +51,7 @@ const routes = [
 	},
 	{
 		path: '/ingredients',
-		label: 'Ingredients',
+		label: 'Ингредиенты',
 		exact: true,
 		private: false,
 		restricted: false,
@@ -62,7 +62,7 @@ const routes = [
 	},
 	{
 		path: '/ingredients/:id',
-		label: 'IngredientDetails',
+		label: 'Ингредиент',
 		exact: false,
 		private: false,
 		restricted: false,
@@ -72,8 +72,17 @@ const routes = [
 		),
 	},
 	{
+		path: '/my-recipes',
+		label: 'Мои рецепты',
+		exact: true,
+		private: true,
+		restricted: false,
+		isNavigate: true,
+		component: lazy(() => import('pages/MyRecipesPage' /* webpackChunkName: "my-recipes-page"*/)),
+	},
+	{
 		path: '/fav-recipes',
-		label: 'My Recipes',
+		label: 'Избранные рецепты',
 		exact: true,
 		private: true,
 		restricted: false,
@@ -82,7 +91,7 @@ const routes = [
 	},
 	{
 		path: '/fav-ingredients',
-		label: 'My Ingredients',
+		label: 'Избранные продукты',
 		exact: true,
 		private: true,
 		restricted: false,
