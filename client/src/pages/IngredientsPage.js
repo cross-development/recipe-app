@@ -11,7 +11,7 @@ const IngredientsPage = () => {
 	const location = useLocation();
 
 	const dispatch = useDispatch();
-	const { items } = useSelector(state => state.ingredients);
+	const { allIngredients } = useSelector(state => state.ingredients);
 
 	useEffect(() => {
 		dispatch(ingredientOperations.getAllIngredients());
@@ -19,7 +19,7 @@ const IngredientsPage = () => {
 
 	return (
 		<div>
-			<IngredientTable ingredients={items} location={location} />
+			<IngredientTable ingredients={allIngredients} location={location} />
 		</div>
 	);
 };

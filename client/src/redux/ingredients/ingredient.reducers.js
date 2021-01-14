@@ -5,12 +5,12 @@ import { createReducer } from '@reduxjs/toolkit';
 import ingredientActions from './ingredient.actions';
 
 //Ingredient reducers
-const items = createReducer([], {
+const allIngredients = createReducer([], {
 	[ingredientActions.getAllIngredientsSuccess]: (state, { payload }) => [...state, ...payload],
+	[ingredientActions.getIngredientByQuerySuccess]: (state, { payload }) => payload,
 });
 
-const item = createReducer(null, {
-	[ingredientActions.getIngredientByQuerySuccess]: (state, { payload }) => payload,
+const ingredientDetails = createReducer(null, {
 	[ingredientActions.getIngredientByIdSuccess]: (state, { payload }) => payload,
 });
 
@@ -37,8 +37,8 @@ const loading = createReducer(false, {
 });
 
 export default combineReducers({
-	item,
-	items,
+	ingredientDetails,
+	allIngredients,
 	error,
 	loading,
 });
