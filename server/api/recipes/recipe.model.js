@@ -6,7 +6,7 @@ const {
 } = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate-v2');
 //Configs
-const configs = require('../../configs/configs');
+const configs = require('@configs/configs');
 
 const recipeSchema = new Schema({
 	name: { type: String, required: true },

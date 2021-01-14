@@ -3,7 +3,7 @@ const Joi = require('joi');
 //Crypt
 const jwt = require('jsonwebtoken');
 //Configs
-const configs = require('../../configs/configs');
+const configs = require('@configs/configs');
 
 //The middleware validate to register user
 function validateSignUpUser(req, res, next) {

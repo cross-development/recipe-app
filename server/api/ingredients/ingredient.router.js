@@ -3,7 +3,7 @@ const { Router } = require('express');
 //Controller
 const ingredientController = require('./ingredient.controller');
 //Middleware
-const middleware = require('../../middleware/middleware');
+const middleware = require('@middleware/middleware');
 
 const { getAllIngredients, getIngredientById } = ingredientController;
 const { validateId, validateQueryParams } = middleware;

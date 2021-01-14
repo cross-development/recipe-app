@@ -6,11 +6,11 @@ const cors = require('cors');
 const morgan = require('morgan');
 require('dotenv').config();
 //Router
-const userRouter = require('../api/users/user.router');
-const recipeRouter = require('../api/recipes/recipe.router');
-const ingredientRouter = require('../api/ingredients/ingredient.router');
+const userRouter = require('@api/users/user.router');
+const recipeRouter = require('@api/recipes/recipe.router');
+const ingredientRouter = require('@api/ingredients/ingredient.router');
 //Handle logs
-const accessLogStream = require('../utils/accessLogStream');
+const accessLogStream = require('@utils/accessLogStream');
 
 class Server {
 	constructor() {

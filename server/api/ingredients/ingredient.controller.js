@@ -1,7 +1,7 @@
 //Model
 const ingredientModel = require('./ingredient.model');
 //Utils
-const prettyResponse = require('../../utils/prettyResponse');
+const prettyResponse = require('@utils/prettyResponse');
 
 async function getAllIngredients(req, res, next) {
 	try {

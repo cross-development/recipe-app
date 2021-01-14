@@ -1,12 +1,13 @@
 //Models
 const userModel = require('./user.model');
-const recipeModel = require('../recipes/recipe.model');
+const recipeModel = require('@api/recipes/recipe.model');
 //Crypt
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 //Utils
-const prettyResponse = require('../../utils/prettyResponse');
+const prettyResponse = require('@utils/prettyResponse');
 
+//User authentication
 async function singUpUser(req, res, next) {
 	try {
 		const { username, email, password } = req.body;
@@ -97,6 +98,7 @@ async function getCurrentUser(req, res, next) {
 	}
 }
 
+//User custom recipes
 async function getUserRecipes(req, res, next) {
 	try {
 		const {
@@ -146,6 +148,16 @@ async function updateRecipe(req, res, next) {
 		next(error);
 	}
 }
+
+//User favorite recipes
+async function getUserFavRecipes(req, res, next) {}
+
+async function addRecipeToFav(req, res, next) {}
+
+async function removeRecipeFromFav(req, res, next) {}
+
+//User favorite ingredients
+async function getUserFavIngredients(req, res, next) {}
 
 async function addIngredientToFav(req, res, next) {
 	try {
