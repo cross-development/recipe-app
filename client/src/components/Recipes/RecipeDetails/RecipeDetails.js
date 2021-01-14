@@ -70,7 +70,8 @@ const RecipeDetails = ({ recipe = {}, existUser = {}, isFavorite, onAddToFavorit
 
 RecipeDetails.propTypes = {
 	recipe: PropTypes.object,
-	userId: PropTypes.object,
+	existUser: PropTypes.object,
+	isFavorite: PropTypes.bool.isRequired,
 	onAddToFavorite: PropTypes.func.isRequired,
 };
 

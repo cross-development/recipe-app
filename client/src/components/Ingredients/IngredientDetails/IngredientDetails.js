@@ -17,7 +17,7 @@ import {
 
 const IngredientDetails = ({ ingredient = {}, existUser = {}, onAddToFavorite, isFavorite }) => {
 	const { name, category, protein, fat, carbs, kcal } = ingredient;
-
+	
 	return (
 		<StyledContainer>
 			<StyledImgWrap>

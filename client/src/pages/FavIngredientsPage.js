@@ -1,12 +1,20 @@
 //Core
-import React from 'react'
+import React from 'react';
+import { useLocation } from 'react-router-dom';
+//Components
+import IngredientTable from 'components/Ingredients/IngredientTable';
+//Redux
+import { useSelector } from 'react-redux';
 
 const FavIngredientsPage = () => {
-    return (
-        <div>
-            FavIngredientsPage
-        </div>
-    )
-}
+	const location = useLocation();
+	const { allIngredients } = useSelector(state => state.ingredients);
 
-export default FavIngredientsPage
+	return (
+		<div>
+			<IngredientTable ingredients={allIngredients} location={location} />
+		</div>
+	);
+};
+
+export default FavIngredientsPage;

@@ -36,12 +36,14 @@ const IngredientDetailsPage = () => {
 
 			{error && error.response.status === 404 && <NotFound />}
 
-			<IngredientDetails
-				existUser={user}
-				isFavorite={isFavorite}
-				ingredient={ingredientDetails}
-				onAddToFavorite={handleAddToFavorite}
-			/>
+			{ingredientDetails && (
+				<IngredientDetails
+					existUser={user}
+					isFavorite={isFavorite}
+					ingredient={ingredientDetails}
+					onAddToFavorite={handleAddToFavorite}
+				/>
+			)}
 		</div>
 	);
 };
