@@ -10,7 +10,8 @@ const userSchema = new Schema({
 	email: { type: String, required: true },
 	password: { type: String, required: true },
 	token: { type: String, required: false },
-	recipes: [{ type: ObjectId, ref: 'Recipe' }],
+	userRecipes: [{ type: ObjectId, ref: 'Recipe' }],
+	favRecipes: [{ type: ObjectId, ref: 'Recipe' }],
 	favIngredients: [{ type: ObjectId, ref: 'Ingredient' }],
 });
 

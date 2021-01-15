@@ -6,46 +6,63 @@ const userController = require('./user.controller');
 const userMiddleware = require('./user.middleware');
 const middleware = require('@middleware');
 
-const { singUpUser, signInUser, signOutUser, getCurrentUser } = userController;
-const { addIngredientToFav, removeIngredientFromFav } = userController;
+const { getUserFavIngredients, addIngredientToFav, removeIngredientFromFav } = userController;
+const { getUserFavRecipes, addRecipeToFav, removeRecipeFromFav } = userController;
 const { getUserRecipes, addRecipe, removeRecipe, updateRecipe } = userController;
+const { getCurrentUser } = userController;
 
-const { validateSignUpUser, validateSignInUser, validateToken } = userMiddleware;
 const { validateCreateRecipe, validateUpdateRecipe } = userMiddleware;
-const { validateId, validateQueryParams } = middleware;
+const { validateId, validateQueryParams, validateToken } = middleware;
 
 const userRouter = Router();
 
-// AUTH @ POST /api/auth/register
-userRouter.post('/register', validateSignUpUser, singUpUser);
+// =============================================================================
+// CURRENT USER                                                               ||
+// =============================================================================
 
-// AUTH @ POST /api/auth/login
-userRouter.post('/login', validateSignInUser, signInUser);
-
-// AUTH @ POST /api/auth/logout
-userRouter.post('/logout', validateToken, signOutUser);
-
-// USERS @ GET /api/users/current
+// @ GET /api/users/current
 userRouter.get('/current', validateToken, getCurrentUser);
 
-// RECIPES @ GET /api/users/:id/recipes
+// =============================================================================
+// USER CUSTOM RECIPES                                                        ||
+// =============================================================================
+
+// @ GET /api/users/:id/recipes
 userRouter.get('/recipes', validateToken, validateQueryParams, getUserRecipes);
 
-// RECIPES @ POST /api/users/recipes
+// @ POST /api/users/recipes
 userRouter.post('/recipes', validateToken, validateCreateRecipe, addRecipe);
 
-// RECIPES @ DELETE /api/users/recipes/:id
+// @ DELETE /api/users/recipes/:id
 userRouter.delete('/recipes/:id', validateToken, validateId, removeRecipe);
 
-// RECIPES @ PATCH /api/users/recipes/:id
+// @ PATCH /api/users/recipes/:id
 userRouter.patch('/recipes/:id', validateToken, validateId, validateUpdateRecipe, updateRecipe);
 
-// INGREDIENTS @ PATCH /api/users/ingredients/:id
-userRouter.patch('/ingredients/:id', validateToken, validateId, addIngredientToFav);
+// =============================================================================
+// USER FAVORITE INGREDIENTS                                                  ||
+// =============================================================================
 
-// INGREDIENTS @ DELETE /api/users/ingredients/:id
-userRouter.delete('/ingredients/:id', validateToken, validateId, removeIngredientFromFav);
+// @ GET /api/users/ingredients
+userRouter.get('/fav-ingredients', validateToken, getUserFavIngredients);
 
-//TODO: add features to get custom recipes and featured ingredients
+// @ POST /api/users/ingredients/:id
+userRouter.post('/fav-ingredients/:id', validateToken, validateId, addIngredientToFav);
+
+// @ DELETE /api/users/ingredients/:id
+userRouter.delete('/fav-ingredients/:id', validateToken, validateId, removeIngredientFromFav);
+
+// =============================================================================
+// USER FAVORITE RECIPES                                                      ||
+// =============================================================================
+
+// @ GET /api/users/fav-recipes
+userRouter.get('/fav-recipes', validateToken, getUserFavRecipes);
+
+// @ POST /api/users/fav-recipes/:id
+userRouter.post('/fav-recipes/:id', validateToken, validateId, addRecipeToFav);
+
+// @ DELETE /api/users/fav-recipes/:id
+userRouter.delete('/fav-recipes/:id', validateToken, validateId, removeRecipeFromFav);
 
 module.exports = userRouter;

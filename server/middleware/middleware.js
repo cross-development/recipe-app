@@ -4,9 +4,12 @@ const {
 } = require('mongoose');
 //Validate
 const Joi = require('joi');
+//Crypt
+const jwt = require('jsonwebtoken');
 //Configs
 const configs = require('@configs');
 
+//The middleware validate query params (page, limit, query)
 function validateQueryParams(req, res, next) {
 	const { minPageNumber, minLimitNumber, minQueryLength } = configs.queryParams;
 
@@ -29,6 +32,27 @@ function validateQueryParams(req, res, next) {
 	next();
 }
 
+//The middleware validate user token
+async function validateToken(req, res, next) {
+	try {
+		const authorizationHeader = req.get('Authorization') || '';
+		const token = authorizationHeader.replace('Bearer ', '');
+
+		try {
+			const userId = await jwt.verify(token, process.env.JWT_SECRET_KEY).userId;
+
+			req.user = { userId, token };
+
+			next();
+		} catch (err) {
+			return res.status(401).json({ message: 'Not authorized' });
+		}
+	} catch (err) {
+		next(err);
+	}
+}
+
+//The middleware validate id
 function validateId(req, res, next) {
 	const { id } = req.params;
 
@@ -41,5 +65,6 @@ function validateId(req, res, next) {
 
 module.exports = {
 	validateQueryParams,
+	validateToken,
 	validateId,
 };

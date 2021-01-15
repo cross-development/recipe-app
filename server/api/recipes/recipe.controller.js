@@ -22,7 +22,7 @@ async function getAllRecipes(req, res, next) {
 async function getRecipeById(req, res, next) {
 	try {
 		const { id } = req.params;
-		const options = { path: 'ingredients', populate: { path: '_id', select: 'name' } };
+		const options = { path: 'ingredients', populate: { path: 'info', select: 'name' } };
 
 		const response = await recipeModel.findOne({ _id: id }).populate(options);
 
@@ -32,7 +32,4 @@ async function getRecipeById(req, res, next) {
 	}
 }
 
-module.exports = {
-	getAllRecipes,
-	getRecipeById,
-};
+module.exports = { getAllRecipes, getRecipeById };
