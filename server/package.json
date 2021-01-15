@@ -12,8 +12,9 @@
 	"_moduleAliases": {
 		"@api": "./api",
 		"@utils": "./utils",
-		"@configs": "./configs",
-		"@middleware": "./middleware"
+		"@server": "./server/app.js",
+		"@configs": "./configs/configs.js",
+		"@middleware": "./middleware/middleware.js"
 	},
 	"keywords": [],
 	"author": "",

@@ -4,7 +4,7 @@ const { Router } = require('express');
 const userController = require('./user.controller');
 //Middleware
 const userMiddleware = require('./user.middleware');
-const middleware = require('@middleware/middleware');
+const middleware = require('@middleware');
 
 const { singUpUser, signInUser, signOutUser, getCurrentUser } = userController;
 const { addIngredientToFav, removeIngredientFromFav } = userController;

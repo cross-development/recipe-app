@@ -5,7 +5,7 @@ const {
 //Validate
 const Joi = require('joi');
 //Configs
-const configs = require('@configs/configs');
+const configs = require('@configs');
 
 function validateQueryParams(req, res, next) {
 	const { minPageNumber, minLimitNumber, minQueryLength } = configs.queryParams;

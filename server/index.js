@@ -1,4 +1,4 @@
 //Core
-const Server = require('./server/app');
+const Server = require('@server');
 
 new Server().start();

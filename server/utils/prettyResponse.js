@@ -3,10 +3,6 @@ function prettyResponse(results) {
 		return null;
 	}
 
-	if (results.docs.length < 1) {
-		return null;
-	}
-
 	return {
 		results: results.docs,
 		limitResults: results.limit,
