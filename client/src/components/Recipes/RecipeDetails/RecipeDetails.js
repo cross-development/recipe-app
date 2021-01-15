@@ -45,9 +45,9 @@ const RecipeDetails = ({ recipe = {}, existUser = {}, isFavorite, onAddToFavorit
 				</StyledNutrition>
 
 				<StyledIngredients>
-					{ingredients.map(({ _id, amount, unit }) => (
-						<StyledIngredientsItem key={_id._id}>
-							<p>{_id.name}</p>
+					{ingredients.map(({ info, amount, unit }) => (
+						<StyledIngredientsItem key={info._id}>
+							<p>{info.name}</p>
 							<p>{amount}</p>
 							<p>{unit}</p>
 						</StyledIngredientsItem>

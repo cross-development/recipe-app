@@ -9,6 +9,7 @@ import { Layout, Loader } from '../Commons';
 import { useDispatch } from 'react-redux';
 import { authOperations } from 'redux/auth';
 import { recipeOperations } from 'redux/recipes';
+import { ingredientOperations } from 'redux/ingredients';
 //Routes
 import routes from 'router';
 import PublicRoute from 'router/PublicRoute';
@@ -20,10 +21,15 @@ const App = () => {
 	const isSignIn = useRouteMatch('/login');
 	const isSignUp = useRouteMatch('/register');
 
-	useEffect(() => {
-		dispatch(authOperations.getCurrentUser());
-		dispatch(recipeOperations.getAllRecipes());
-	}, [dispatch]);
+	useEffect(() => dispatch(authOperations.getCurrentUser()), [dispatch]);
+
+	useEffect(() => dispatch(recipeOperations.getAllRecipes()), [dispatch]);
+
+	useEffect(() => dispatch(recipeOperations.getRecipesCuisines()), [dispatch]);
+
+	useEffect(() => dispatch(recipeOperations.getRecipesCategories()), [dispatch]);
+
+	useEffect(() => dispatch(ingredientOperations.getIngredientsCategories()), [dispatch]);
 
 	return (
 		<>

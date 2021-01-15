@@ -6,12 +6,17 @@ import ingredientActions from './ingredient.actions';
 
 //Ingredient reducers
 const allIngredients = createReducer([], {
-	[ingredientActions.getAllIngredientsSuccess]: (state, { payload }) => [...state, ...payload],
-	[ingredientActions.getIngredientByQuerySuccess]: (state, { payload }) => payload,
+	[ingredientActions.getAllIngredientsSuccess]: (state, { payload }) => [...payload],
+	[ingredientActions.getIngredientByQuerySuccess]: (state, { payload }) => [...payload],
 });
 
 const ingredientDetails = createReducer(null, {
 	[ingredientActions.getIngredientByIdSuccess]: (state, { payload }) => payload,
+});
+
+//Categories reducer
+const categories = createReducer([], {
+	[ingredientActions.getIngredientCategorySuccess]: (state, { payload }) => [...payload],
 });
 
 //Error reducer
@@ -19,6 +24,7 @@ const error = createReducer(null, {
 	[ingredientActions.getAllIngredientsFailure]: (state, { payload }) => payload,
 	[ingredientActions.getIngredientByQueryFailure]: (state, { payload }) => payload,
 	[ingredientActions.getIngredientByIdFailure]: (state, { payload }) => payload,
+	[ingredientActions.getIngredientCategoryFailure]: (state, { payload }) => payload,
 });
 
 //Loading reducer
@@ -34,11 +40,16 @@ const loading = createReducer(false, {
 	[ingredientActions.getIngredientByIdRequest]: () => true,
 	[ingredientActions.getIngredientByIdSuccess]: () => false,
 	[ingredientActions.getIngredientByIdFailure]: () => false,
+
+	[ingredientActions.getIngredientCategoryRequest]: () => true,
+	[ingredientActions.getIngredientCategorySuccess]: () => false,
+	[ingredientActions.getIngredientCategoryFailure]: () => false,
 });
 
 export default combineReducers({
 	ingredientDetails,
 	allIngredients,
+	categories,
 	error,
 	loading,
 });

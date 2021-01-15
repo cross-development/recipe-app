@@ -13,6 +13,10 @@ const getIngredientByIdRequest = createAction('ingredients/getIngredientByIdRequ
 const getIngredientByIdSuccess = createAction('ingredients/getIngredientByIdSuccess');
 const getIngredientByIdFailure = createAction('ingredients/getIngredientByIdFailure');
 
+const getIngredientCategoryRequest = createAction('ingredients/getIngredientCategoryRequest');
+const getIngredientCategorySuccess = createAction('ingredients/getIngredientCategorySuccess');
+const getIngredientCategoryFailure = createAction('ingredients/getIngredientCategoryFailure');
+
 const ingredientActions = {
 	getAllIngredientsRequest,
 	getAllIngredientsSuccess,
@@ -25,6 +29,10 @@ const ingredientActions = {
 	getIngredientByIdRequest,
 	getIngredientByIdSuccess,
 	getIngredientByIdFailure,
+
+	getIngredientCategoryRequest,
+	getIngredientCategorySuccess,
+	getIngredientCategoryFailure,
 };
 
 export default ingredientActions;

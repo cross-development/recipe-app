@@ -39,5 +39,31 @@ const getUserRecipes = () => dispatch => {
 		.catch(error => dispatch(recipeActions.getUserRecipesFailure(error)));
 };
 
-const recipeOperations = { getAllRecipes, getRecipeByQuery, getRecipeById, getUserRecipes };
+const getRecipesCategories = () => dispatch => {
+	dispatch(recipeActions.getRecipeCategoryRequest());
+
+	axios
+		.get('/api/recipe-categories')
+		.then(({ data }) => dispatch(recipeActions.getRecipeCategorySuccess(data)))
+		.catch(error => dispatch(recipeActions.getRecipeCategoryFailure(error)));
+};
+
+const getRecipesCuisines = () => dispatch => {
+	dispatch(recipeActions.getRecipeCuisineRequest());
+
+	axios
+		.get('/api/recipe-cuisines')
+		.then(({ data }) => dispatch(recipeActions.getRecipeCuisineSuccess(data)))
+		.catch(error => dispatch(recipeActions.getRecipeCuisineFailure(error)));
+};
+
+const recipeOperations = {
+	getAllRecipes,
+	getRecipeByQuery,
+	getRecipeById,
+	getUserRecipes,
+	getRecipesCategories,
+	getRecipesCuisines,
+};
+
 export default recipeOperations;

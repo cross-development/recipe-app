@@ -32,5 +32,20 @@ const getIngredientById = id => dispatch => {
 		.catch(error => dispatch(ingredientActions.getIngredientByIdFailure(error)));
 };
 
-const ingredientOperations = { getAllIngredients, getIngredientByQuery, getIngredientById };
+const getIngredientsCategories = () => dispatch => {
+	dispatch(ingredientActions.getIngredientCategoryRequest());
+
+	axios
+		.get('/api/ingredient-categories')
+		.then(({ data }) => dispatch(ingredientActions.getIngredientCategorySuccess(data)))
+		.catch(error => dispatch(ingredientActions.getIngredientCategoryFailure(error)));
+};
+
+const ingredientOperations = {
+	getAllIngredients,
+	getIngredientByQuery,
+	getIngredientById,
+	getIngredientsCategories,
+};
+
 export default ingredientOperations;
