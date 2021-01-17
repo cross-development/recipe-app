@@ -7,6 +7,7 @@ import storage from 'redux-persist/lib/storage';
 import { authReducers } from './auth';
 import { recipeReducers } from './recipes';
 import { ingredientReducers } from './ingredients';
+import { favoriteReducers } from './favorites';
 
 const authPersistConfig = {
 	key: 'auth',
@@ -19,6 +20,7 @@ export const store = configureStore({
 		auth: persistReducer(authPersistConfig, authReducers),
 		recipes: recipeReducers,
 		ingredients: ingredientReducers,
+		favorites: favoriteReducers,
 	},
 
 	middleware: getDefaultMiddleware({
