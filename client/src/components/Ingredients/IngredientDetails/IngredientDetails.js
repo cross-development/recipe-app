@@ -15,9 +15,9 @@ import {
 	StyledButton,
 } from './IngredientDetails.styles';
 
-const IngredientDetails = ({ ingredient = {}, existUser = {}, onAddToFavorite, isFavorite }) => {
+const IngredientDetails = ({ ingredient = {}, existUser = {}, onChangeFavorites, isFavorite }) => {
 	const { name, category, protein, fat, carbs, kcal } = ingredient;
-	
+
 	return (
 		<StyledContainer>
 			<StyledImgWrap>
@@ -39,7 +39,7 @@ const IngredientDetails = ({ ingredient = {}, existUser = {}, onAddToFavorite, i
 
 			{existUser && (
 				<StyledButtonWrap>
-					<StyledButton type="button" onClick={onAddToFavorite}>
+					<StyledButton type="button" onClick={onChangeFavorites}>
 						{isFavorite ? 'Удалить из избранных' : 'Добавить в избранные'}
 					</StyledButton>
 				</StyledButtonWrap>
@@ -52,7 +52,7 @@ IngredientDetails.propTypes = {
 	existUser: PropTypes.object,
 	ingredient: PropTypes.object,
 	isFavorite: PropTypes.bool.isRequired,
-	onAddToFavorite: PropTypes.func.isRequired,
+	onChangeFavorites: PropTypes.func.isRequired,
 };
 
 export default IngredientDetails;
