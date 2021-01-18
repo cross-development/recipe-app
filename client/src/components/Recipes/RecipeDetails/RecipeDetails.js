@@ -20,7 +20,7 @@ import {
 	StyledButton,
 } from './RecipeDetails.styles';
 
-const RecipeDetails = ({ recipe = {}, existUser = {}, isFavorite, onAddToFavorite }) => {
+const RecipeDetails = ({ recipe = {}, existUser = {}, isFavorite, onChangeFavorites }) => {
 	const { name, category, cuisine, cookingTime, description, ingredients } = recipe;
 	const { protein, fat, carbs, kcal } = recipe;
 
@@ -59,7 +59,7 @@ const RecipeDetails = ({ recipe = {}, existUser = {}, isFavorite, onAddToFavorit
 
 			{existUser && (
 				<StyledButtonWrap>
-					<StyledButton type="button" onClick={onAddToFavorite}>
+					<StyledButton type="button" onClick={onChangeFavorites}>
 						{isFavorite ? 'Удалить из избранных' : 'Добавить в избранные'}
 					</StyledButton>
 				</StyledButtonWrap>
@@ -72,7 +72,7 @@ RecipeDetails.propTypes = {
 	recipe: PropTypes.object,
 	existUser: PropTypes.object,
 	isFavorite: PropTypes.bool.isRequired,
-	onAddToFavorite: PropTypes.func.isRequired,
+	onChangeFavorites: PropTypes.func.isRequired,
 };
 
 export default RecipeDetails;

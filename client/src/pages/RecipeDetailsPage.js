@@ -1,5 +1,5 @@
 //Core
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 //Components
 import RecipeDetails from 'components/Recipes/RecipeDetails';
@@ -7,6 +7,7 @@ import { Loader, Notification, NotFound } from 'components/Commons';
 //Redux
 import { useSelector, useDispatch } from 'react-redux';
 import { recipeOperations } from 'redux/recipes';
+import { favoriteOperations } from 'redux/favorites';
 
 const RecipeDetailsPage = () => {
 	const [isFavorite, setIsFavorite] = useState(false);
@@ -15,17 +16,33 @@ const RecipeDetailsPage = () => {
 
 	const {
 		auth: { user },
+		favorites: { favRecipes },
 		recipes: { recipeDetails, loading, error },
 	} = useSelector(state => state);
 
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		dispatch(recipeOperations.getRecipeById(id));
-	}, [dispatch, id]);
+		user && dispatch(favoriteOperations.getFavRecipes());
 
-	const handleAddToFavorite = () => {
-		console.log('add to fav');
+		dispatch(recipeOperations.getRecipeById(id));
+	}, [dispatch, user, id]);
+
+	useMemo(() => user && favRecipes.find(({ _id }) => (_id === id ? setIsFavorite(true) : false)), [
+		favRecipes,
+		user,
+		id,
+	]);
+
+	const handleChangeFavorites = () => {
+		if (!isFavorite) {
+			dispatch(favoriteOperations.addFavRecipe(id));
+			setIsFavorite(true);
+			return;
+		}
+
+		dispatch(favoriteOperations.removeFavRecipe(id));
+		setIsFavorite(false);
 	};
 
 	return (
@@ -41,7 +58,7 @@ const RecipeDetailsPage = () => {
 					existUser={user}
 					recipe={recipeDetails}
 					isFavorite={isFavorite}
-					onAddToFavorite={handleAddToFavorite}
+					onChangeFavorites={handleChangeFavorites}
 				/>
 			)}
 		</div>

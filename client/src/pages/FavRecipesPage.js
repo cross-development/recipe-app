@@ -1,18 +1,28 @@
 //Core
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 //Components
+import { Notification } from 'components/Commons';
 import RecipeTable from 'components/Recipes/RecipeTable';
 //Redux
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { favoriteOperations } from 'redux/favorites';
 
 const FavRecipesPage = () => {
+	const dispatch = useDispatch();
+
 	const location = useLocation();
-	const { allRecipes } = useSelector(state => state.recipes);
+	const { favRecipes } = useSelector(state => state.favorites);
+
+	useEffect(() => {
+		dispatch(favoriteOperations.getFavRecipes());
+	}, [dispatch]);
 
 	return (
 		<div>
-			<RecipeTable recipes={allRecipes} location={location} />
+			{favRecipes.length < 1 && <Notification message="У вас пока нет избранных рецептов." />}
+
+			<RecipeTable recipes={favRecipes} location={location} />
 		</div>
 	);
 };
