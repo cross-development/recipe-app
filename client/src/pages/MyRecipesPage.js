@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 //Components
-import RecipeForm from 'components/Recipes/RecipeForm';
+import RecipeForm from 'components/RecipeForm';
 import RecipeTable from 'components/Recipes/RecipeTable';
 import RecipeButton from 'components/Recipes/RecipeButton';
 //Redux

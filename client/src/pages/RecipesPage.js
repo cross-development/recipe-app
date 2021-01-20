@@ -1,18 +1,30 @@
 //Core
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 //Components
+import { Loader } from 'components/Commons';
 import RecipeTable from 'components/Recipes/RecipeTable';
 //Redux
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { recipeOperations } from 'redux/recipes';
 
 const RecipesPage = () => {
 	const location = useLocation();
-	const { allRecipes } = useSelector(state => state.recipes);
+
+	const dispatch = useDispatch();
+	const { allRecipes, loading } = useSelector(state => state.recipes);
+
+	useEffect(() => {
+		dispatch(recipeOperations.getAllRecipes());
+	}, [dispatch]);
 
 	return (
 		<div>
-			<RecipeTable recipes={allRecipes} location={location} />
+			{loading && <Loader onLoad={loading} />}
+
+			{!loading && allRecipes.length > 0 && (
+				<RecipeTable recipes={allRecipes} location={location} />
+			)}
 		</div>
 	);
 };

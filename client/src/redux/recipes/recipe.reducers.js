@@ -4,10 +4,15 @@ import { createReducer } from '@reduxjs/toolkit';
 //Redux
 import recipeActions from './recipe.actions';
 
+//Handler reducers
+const getRecipesHandler = (state, { payload }) => [...payload];
+const addRecipeHandler = (state, { payload }) => [...state, payload];
+const removeRecipeHandler = (state, { payload }) => state.filter(({ _id }) => _id !== payload);
+
 //Recipe reducers
 const allRecipes = createReducer([], {
-	[recipeActions.getAllRecipesSuccess]: (state, { payload }) => payload,
-	[recipeActions.getRecipeByQuerySuccess]: (state, { payload }) => payload,
+	[recipeActions.getAllRecipesSuccess]: getRecipesHandler,
+	[recipeActions.getRecipeByQuerySuccess]: getRecipesHandler,
 });
 
 const recipeDetails = createReducer(null, {
@@ -15,7 +20,9 @@ const recipeDetails = createReducer(null, {
 });
 
 const userRecipes = createReducer([], {
-	[recipeActions.getUserRecipesSuccess]: (state, { payload }) => [...payload],
+	[recipeActions.getUserRecipesSuccess]: getRecipesHandler,
+	[recipeActions.addUserRecipeSuccess]: addRecipeHandler,
+	[recipeActions.removeUserRecipeSuccess]: removeRecipeHandler,
 });
 
 //Categories reducer
@@ -34,6 +41,8 @@ const error = createReducer(null, {
 	[recipeActions.getRecipeByQueryFailure]: (state, { payload }) => payload,
 	[recipeActions.getRecipeByIdFailure]: (state, { payload }) => payload,
 	[recipeActions.getUserRecipesFailure]: (state, { payload }) => payload,
+	[recipeActions.addUserRecipeFailure]: (state, { payload }) => payload,
+	[recipeActions.removeUserRecipeFailure]: (state, { payload }) => payload,
 	[recipeActions.getRecipeCategoryFailure]: (state, { payload }) => payload,
 	[recipeActions.getRecipeCuisineFailure]: (state, { payload }) => payload,
 });
@@ -55,6 +64,14 @@ const loading = createReducer(false, {
 	[recipeActions.getUserRecipesFailure]: () => true,
 	[recipeActions.getUserRecipesSuccess]: () => false,
 	[recipeActions.getUserRecipesFailure]: () => false,
+
+	[recipeActions.addUserRecipeRequest]: () => true,
+	[recipeActions.addUserRecipeSuccess]: () => false,
+	[recipeActions.addUserRecipeFailure]: () => false,
+
+	[recipeActions.removeUserRecipeRequest]: () => true,
+	[recipeActions.removeUserRecipeSuccess]: () => false,
+	[recipeActions.removeUserRecipeFailure]: () => false,
 
 	[recipeActions.getRecipeCategoryRequest]: () => true,
 	[recipeActions.getRecipeCategorySuccess]: () => false,

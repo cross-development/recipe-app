@@ -17,6 +17,14 @@ const getUserRecipesRequest = createAction('recipes/getUserRecipesRequest');
 const getUserRecipesSuccess = createAction('recipes/getUserRecipesSuccess');
 const getUserRecipesFailure = createAction('recipes/getUserRecipesFailure');
 
+const addUserRecipeRequest = createAction('recipes/addUserRecipeRequest');
+const addUserRecipeSuccess = createAction('recipes/addUserRecipeSuccess');
+const addUserRecipeFailure = createAction('recipes/addUserRecipeFailure');
+
+const removeUserRecipeRequest = createAction('recipes/removeUserRecipeRequest');
+const removeUserRecipeSuccess = createAction('recipes/removeUserRecipeSuccess');
+const removeUserRecipeFailure = createAction('recipes/removeUserRecipeFailure');
+
 const getRecipeCategoryRequest = createAction('recipes/getRecipeCategoryRequest');
 const getRecipeCategorySuccess = createAction('recipes/getRecipeCategorySuccess');
 const getRecipeCategoryFailure = createAction('recipes/getRecipeCategoryFailure');
@@ -41,6 +49,14 @@ const recipeActions = {
 	getUserRecipesRequest,
 	getUserRecipesSuccess,
 	getUserRecipesFailure,
+
+	addUserRecipeRequest,
+	addUserRecipeSuccess,
+	addUserRecipeFailure,
+
+	removeUserRecipeRequest,
+	removeUserRecipeSuccess,
+	removeUserRecipeFailure,
 
 	getRecipeCategoryRequest,
 	getRecipeCategorySuccess,

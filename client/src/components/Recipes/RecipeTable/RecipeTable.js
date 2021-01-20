@@ -26,15 +26,15 @@ const RecipeTable = ({ recipes = [], location = {} }) => (
 					}}
 				>
 					<StyledImg src="https://static.1000.menu/img/content/21458/-salat-cezar-s-kr-salat-cezar-s-krevetkami-s-maionezom_1501173720_1_max.jpg" />
-					<StyledTitle>{name}</StyledTitle>
-					<StyledCategory>{category}</StyledCategory>
-					<StyledCuisine>{cuisine}</StyledCuisine>
-					<StyledCooking>{cookingTime}</StyledCooking>
+					<StyledTitle>Название: {name}</StyledTitle>
+					<StyledCategory>Категория: {category.name}</StyledCategory>
+					<StyledCuisine>Кухня: {cuisine.name}</StyledCuisine>
+					<StyledCooking>Время приготовления: {cookingTime} мин.</StyledCooking>
 					<StyledNutrition>
-						<StyledNutritionItem>{nutrition.protein}</StyledNutritionItem>
-						<StyledNutritionItem>{nutrition.fat}</StyledNutritionItem>
-						<StyledNutritionItem>{nutrition.carbs}</StyledNutritionItem>
-						<StyledNutritionItem>{nutrition.kcal}</StyledNutritionItem>
+						<StyledNutritionItem>Белки: {nutrition.protein} г</StyledNutritionItem>
+						<StyledNutritionItem>Жиры: {nutrition.fat} г</StyledNutritionItem>
+						<StyledNutritionItem>Углеводы: {nutrition.carbs} г</StyledNutritionItem>
+						<StyledNutritionItem>Калорийность: {nutrition.kcal} ккал</StyledNutritionItem>
 					</StyledNutrition>
 				</StyledItemLink>
 			</StyledListItem>

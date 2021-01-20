@@ -23,8 +23,6 @@ const App = () => {
 
 	useEffect(() => dispatch(authOperations.getCurrentUser()), [dispatch]);
 
-	useEffect(() => dispatch(recipeOperations.getAllRecipes()), [dispatch]);
-
 	useEffect(() => dispatch(recipeOperations.getRecipesCuisines()), [dispatch]);
 
 	useEffect(() => dispatch(recipeOperations.getRecipesCategories()), [dispatch]);

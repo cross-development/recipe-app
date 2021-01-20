@@ -2,6 +2,7 @@
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 //Components
+import { Loader } from 'components/Commons';
 import { Notification } from 'components/Commons';
 import IngredientTable from 'components/Ingredients/IngredientTable';
 //Redux
@@ -12,7 +13,7 @@ const FavIngredientsPage = () => {
 	const dispatch = useDispatch();
 
 	const location = useLocation();
-	const { favIngredients } = useSelector(state => state.favorites);
+	const { favIngredients, loading } = useSelector(state => state.favorites);
 
 	useEffect(() => {
 		dispatch(favoriteOperations.getFavIngredients());
@@ -20,9 +21,15 @@ const FavIngredientsPage = () => {
 
 	return (
 		<div>
-			{favIngredients.length < 1 && <Notification message="У вас пока нет избранных продуктов." />}
+			{loading && <Loader onLoad={loading} />}
 
-			<IngredientTable ingredients={favIngredients} location={location} />
+			{!loading && favIngredients.length < 1 && (
+				<Notification message="У вас пока нет избранных продуктов." />
+			)}
+
+			{!loading && favIngredients.length > 0 && (
+				<IngredientTable ingredients={favIngredients} location={location} />
+			)}
 		</div>
 	);
 };

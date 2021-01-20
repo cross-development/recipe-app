@@ -27,13 +27,13 @@ const IngredientDetails = ({ ingredient = {}, existUser = {}, onChangeFavorites,
 			<StyledDetailsWrap>
 				<StyledTitle>{name}</StyledTitle>
 
-				<StyledCategory>{category}</StyledCategory>
+				<StyledCategory>Категория: {category}</StyledCategory>
 
 				<StyledNutrition>
-					<StyledNutritionItem>{protein}</StyledNutritionItem>
-					<StyledNutritionItem>{fat}</StyledNutritionItem>
-					<StyledNutritionItem>{carbs}</StyledNutritionItem>
-					<StyledNutritionItem>{kcal}</StyledNutritionItem>
+					<StyledNutritionItem>Белки: {protein} г</StyledNutritionItem>
+					<StyledNutritionItem>Жиры: {fat} г</StyledNutritionItem>
+					<StyledNutritionItem>Углеводы: {carbs} г</StyledNutritionItem>
+					<StyledNutritionItem>Калорийность: {kcal} ккал</StyledNutritionItem>
 				</StyledNutrition>
 			</StyledDetailsWrap>
 

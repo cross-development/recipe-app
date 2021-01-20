@@ -39,6 +39,24 @@ const getUserRecipes = () => dispatch => {
 		.catch(error => dispatch(recipeActions.getUserRecipesFailure(error)));
 };
 
+const addUserRecipe = ({ credential }) => dispatch => {
+	dispatch(recipeActions.addUserRecipeRequest());
+
+	axios
+		.post('/api/users/recipes', credential)
+		.then(({ data }) => dispatch(recipeActions.addUserRecipeSuccess(data)))
+		.catch(error => dispatch(recipeActions.addUserRecipeFailure(error)));
+};
+
+const removeUserRecipe = recipeId => dispatch => {
+	dispatch(recipeActions.removeUserRecipeRequest());
+
+	axios
+		.delete(`/api/users/recipes/${recipeId}`)
+		.then(() => dispatch(recipeActions.removeUserRecipeSuccess(recipeId)))
+		.catch(error => dispatch(recipeActions.removeUserRecipeFailure(error)));
+};
+
 const getRecipesCategories = () => dispatch => {
 	dispatch(recipeActions.getRecipeCategoryRequest());
 
@@ -62,6 +80,8 @@ const recipeOperations = {
 	getRecipeByQuery,
 	getRecipeById,
 	getUserRecipes,
+	addUserRecipe,
+	removeUserRecipe,
 	getRecipesCategories,
 	getRecipesCuisines,
 };

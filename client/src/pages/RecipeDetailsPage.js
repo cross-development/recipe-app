@@ -12,7 +12,7 @@ import { favoriteOperations } from 'redux/favorites';
 const RecipeDetailsPage = () => {
 	const [isFavorite, setIsFavorite] = useState(false);
 
-	const { id } = useParams();
+	const { id: recipeId } = useParams();
 
 	const {
 		auth: { user },
@@ -25,25 +25,26 @@ const RecipeDetailsPage = () => {
 	useEffect(() => {
 		user && dispatch(favoriteOperations.getFavRecipes());
 
-		dispatch(recipeOperations.getRecipeById(id));
-	}, [dispatch, user, id]);
+		dispatch(recipeOperations.getRecipeById(recipeId));
+	}, [dispatch, user, recipeId]);
 
-	useMemo(() => user && favRecipes.find(({ _id }) => (_id === id ? setIsFavorite(true) : false)), [
-		favRecipes,
-		user,
-		id,
-	]);
+	useMemo(
+		() => user && favRecipes.find(({ _id }) => (_id === recipeId ? setIsFavorite(true) : false)),
+		[favRecipes, user, recipeId],
+	);
 
 	const handleChangeFavorites = () => {
 		if (!isFavorite) {
-			dispatch(favoriteOperations.addFavRecipe(id));
+			dispatch(favoriteOperations.addFavRecipe(recipeId));
 			setIsFavorite(true);
 			return;
 		}
 
-		dispatch(favoriteOperations.removeFavRecipe(id));
+		dispatch(favoriteOperations.removeFavRecipe(recipeId));
 		setIsFavorite(false);
 	};
+
+	const handleRemoveRecipe = () => dispatch(recipeOperations.removeUserRecipe(recipeId));
 
 	return (
 		<div>
@@ -57,8 +58,9 @@ const RecipeDetailsPage = () => {
 				<RecipeDetails
 					existUser={user}
 					recipe={recipeDetails}
-					isFavorite={isFavorite}
-					onChangeFavorites={handleChangeFavorites}
+					isFav={isFavorite}
+					onRemoveRecipe={handleRemoveRecipe}
+					onChangeFav={handleChangeFavorites}
 				/>
 			)}
 		</div>

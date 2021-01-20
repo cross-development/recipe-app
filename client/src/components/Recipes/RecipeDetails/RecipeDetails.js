@@ -20,8 +20,8 @@ import {
 	StyledButton,
 } from './RecipeDetails.styles';
 
-const RecipeDetails = ({ recipe = {}, existUser = {}, isFavorite, onChangeFavorites }) => {
-	const { name, category, cuisine, cookingTime, description, ingredients } = recipe;
+const RecipeDetails = ({ recipe = {}, existUser = {}, isFav, onChangeFav, onRemoveRecipe }) => {
+	const { name, category, cuisine, cookingTime, description, ingredients, authorID } = recipe;
 	const { protein, fat, carbs, kcal } = recipe;
 
 	return (
@@ -31,20 +31,21 @@ const RecipeDetails = ({ recipe = {}, existUser = {}, isFavorite, onChangeFavori
 			</StyledImgWrap>
 
 			<StyledDetailsWrap>
-				<StyledTitle>{name}</StyledTitle>
+				<StyledTitle>Название: {name}</StyledTitle>
 
-				<StyledCategory>{category}</StyledCategory>
-				<StyledCuisine>{cuisine}</StyledCuisine>
-				<StyledCooking>{cookingTime}</StyledCooking>
+				<StyledCategory>Категория: {category.name}</StyledCategory>
+				<StyledCuisine>Кухня: {cuisine.name}</StyledCuisine>
+				<StyledCooking>Время приготовления: {cookingTime} мин.</StyledCooking>
 
 				<StyledNutrition>
-					<StyledNutritionItem>{protein}</StyledNutritionItem>
-					<StyledNutritionItem>{fat}</StyledNutritionItem>
-					<StyledNutritionItem>{carbs}</StyledNutritionItem>
-					<StyledNutritionItem>{kcal}</StyledNutritionItem>
+					<StyledNutritionItem>Белки: {protein} г</StyledNutritionItem>
+					<StyledNutritionItem>Жиры: {fat} г</StyledNutritionItem>
+					<StyledNutritionItem>Углеводы: {carbs} г</StyledNutritionItem>
+					<StyledNutritionItem>Калорийность: {kcal} ккал</StyledNutritionItem>
 				</StyledNutrition>
 
 				<StyledIngredients>
+					Ингредиенты:
 					{ingredients.map(({ info, amount, unit }) => (
 						<StyledIngredientsItem key={info._id}>
 							<p>{info.name}</p>
@@ -54,14 +55,20 @@ const RecipeDetails = ({ recipe = {}, existUser = {}, isFavorite, onChangeFavori
 					))}
 				</StyledIngredients>
 
-				<StyledDescription>{description}</StyledDescription>
+				<StyledDescription>Приготовление: {description}</StyledDescription>
 			</StyledDetailsWrap>
 
 			{existUser && (
 				<StyledButtonWrap>
-					<StyledButton type="button" onClick={onChangeFavorites}>
-						{isFavorite ? 'Удалить из избранных' : 'Добавить в избранные'}
+					<StyledButton type="button" onClick={onChangeFav}>
+						{isFav ? 'Удалить из избранных' : 'Добавить в избранные'}
 					</StyledButton>
+
+					{existUser.userId === authorID && (
+						<StyledButton type="button" onClick={onRemoveRecipe}>
+							Удалить рецепт
+						</StyledButton>
+					)}
 				</StyledButtonWrap>
 			)}
 		</StyledContainer>
@@ -71,8 +78,8 @@ const RecipeDetails = ({ recipe = {}, existUser = {}, isFavorite, onChangeFavori
 RecipeDetails.propTypes = {
 	recipe: PropTypes.object,
 	existUser: PropTypes.object,
-	isFavorite: PropTypes.bool.isRequired,
-	onChangeFavorites: PropTypes.func.isRequired,
+	isFav: PropTypes.bool.isRequired,
+	onChangeFav: PropTypes.func.isRequired,
 };
 
 export default RecipeDetails;

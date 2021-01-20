@@ -23,7 +23,7 @@ const IngredientTable = ({ ingredients = [], location = {} }) => (
 				>
 					<StyledImg />
 					<StyledTitle>{name}</StyledTitle>
-					<StyledCategory>{category}</StyledCategory>
+					<StyledCategory>Категория: {category}</StyledCategory>
 				</StyledItemLink>
 			</StyledListItem>
 		))}

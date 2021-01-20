@@ -2,6 +2,7 @@
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 //Components
+import { Loader } from 'components/Commons';
 import { Notification } from 'components/Commons';
 import RecipeTable from 'components/Recipes/RecipeTable';
 //Redux
@@ -12,7 +13,7 @@ const FavRecipesPage = () => {
 	const dispatch = useDispatch();
 
 	const location = useLocation();
-	const { favRecipes } = useSelector(state => state.favorites);
+	const { favRecipes, loading } = useSelector(state => state.favorites);
 
 	useEffect(() => {
 		dispatch(favoriteOperations.getFavRecipes());
@@ -20,9 +21,15 @@ const FavRecipesPage = () => {
 
 	return (
 		<div>
-			{favRecipes.length < 1 && <Notification message="У вас пока нет избранных рецептов." />}
+			{loading && <Loader onLoad={loading} />}
 
-			<RecipeTable recipes={favRecipes} location={location} />
+			{!loading && favRecipes.length < 1 && (
+				<Notification message="У вас пока нет избранных рецептов." />
+			)}
+
+			{!loading && favRecipes.length > 0 && (
+				<RecipeTable recipes={favRecipes} location={location} />
+			)}
 		</div>
 	);
 };
