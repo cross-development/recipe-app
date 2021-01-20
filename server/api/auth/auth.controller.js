@@ -44,7 +44,7 @@ async function signInUser(req, res, next) {
 			expiresIn: process.env.EXPIRES_IN,
 		});
 
-		await userModel.findByIdAndUpdate(user._id, { token: userToken });
+		await userModel.findByIdAndUpdate(user._id, { $set: { token: userToken } });
 
 		const response = {
 			user: {
@@ -70,7 +70,7 @@ async function signOutUser(req, res, next) {
 			return res.status(401).json({ message: 'Not authorized' });
 		}
 
-		await userModel.findByIdAndUpdate(user._id, { token: '' });
+		await userModel.findByIdAndUpdate(user._id, { $set: { token: '' } });
 
 		return res.status(204).send();
 	} catch (error) {

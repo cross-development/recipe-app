@@ -10,8 +10,8 @@ const configs = require('@configs');
 
 const recipeSchema = new Schema({
 	name: { type: String, required: true },
-	categoryId: { type: ObjectId, ref: 'Category' },
-	cuisineId: { type: ObjectId, ref: 'Cuisine' },
+	category: { type: ObjectId, ref: 'Recipe.category' },
+	cuisine: { type: ObjectId, ref: 'Recipe.cuisine' },
 	cookingTime: { type: String, required: true },
 	ingredients: [
 		{

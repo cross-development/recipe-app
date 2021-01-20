@@ -36,7 +36,15 @@ async function getUserRecipes(req, res, next) {
 			user: { userId },
 		} = req;
 
-		const options = { page, limit, select: '-ingredients -description -__v' };
+		const options = {
+			page,
+			limit,
+			select: '-ingredients -description -__v',
+			populate: [
+				{ path: 'category', select: '-_id' },
+				{ path: 'cuisine', select: '-_id' },
+			],
+		};
 
 		const results = await recipeModel.paginate({ authorID: userId }, options);
 		const response = prettyResponse(results);
@@ -71,6 +79,18 @@ async function addRecipe(req, res, next) {
 
 async function removeRecipe(req, res, next) {
 	try {
+		const { id } = req.params;
+		const user = await userModel.findById(req.user.userId);
+
+		if (!user) {
+			return res.status(401).json({ message: 'Not authorized' });
+		}
+
+		await recipeModel.findByIdAndDelete({ _id: id });
+
+		await userModel.findByIdAndUpdate(user._id, { $pull: { userRecipes: id } }, { new: true });
+
+		return res.status(204).send();
 	} catch (error) {
 		next(error);
 	}
@@ -83,68 +103,6 @@ async function updateRecipe(req, res, next) {
 	}
 }
 
-// =============================================================================
-// USER FAVORITE RECIPES                                                      ||
-// =============================================================================
-
-async function getUserFavRecipes(req, res, next) {}
-
-async function addRecipeToFav(req, res, next) {}
-
-async function removeRecipeFromFav(req, res, next) {}
-
-// =============================================================================
-// USER FAVORITE INGREDIENTS                                                  ||
-// =============================================================================
-
-async function getUserFavIngredients(req, res, next) {}
-
-async function addIngredientToFav(req, res, next) {
-	try {
-		const { id } = req.params;
-		const user = await userModel.findById(req.user.userId);
-
-		if (!user) {
-			return res.status(401).json({ message: 'Not authorized' });
-		}
-
-		if (user.favIngredients.includes(id)) {
-			return res.status(409).json({ message: 'Ingredient already exists' });
-		}
-
-		const updatedUser = await userModel.findByIdAndUpdate(
-			user._id,
-			{ $push: { favIngredients: id } },
-			{ new: true },
-		);
-
-		return res.status(201).json({ favIngredients: updatedUser.favIngredients });
-	} catch (error) {
-		next(error);
-	}
-}
-
-async function removeIngredientFromFav(req, res, next) {
-	try {
-		const { id } = req.params;
-		const user = await userModel.findById(req.user.userId);
-
-		if (!user) {
-			return res.status(401).json({ message: 'Not authorized' });
-		}
-
-		if (!user.favIngredients.includes(id)) {
-			return res.status(404).json({ message: 'Ingredient not found' });
-		}
-
-		await userModel.findByIdAndUpdate(user._id, { $pull: { favIngredients: id } }, { new: true });
-
-		return res.status(200).json({ id });
-	} catch (error) {
-		next(error);
-	}
-}
-
 module.exports = {
 	getCurrentUser,
 
@@ -152,12 +110,4 @@ module.exports = {
 	addRecipe,
 	removeRecipe,
 	updateRecipe,
-
-	getUserFavRecipes,
-	addRecipeToFav,
-	removeRecipeFromFav,
-
-	getUserFavIngredients,
-	addIngredientToFav,
-	removeIngredientFromFav,
 };

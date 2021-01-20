@@ -13,7 +13,7 @@ async function getFavIngredients(req, res, next) {
 
 		const user = await userModel
 			.findById(userId)
-			.populate({ path: 'favIngredients', select: 'name' });
+			.populate({ path: 'favIngredients', select: 'name category' });
 
 		if (!user) {
 			return res.status(401).json({ message: 'Not authorized' });
@@ -91,9 +91,14 @@ async function getFavRecipes(req, res, next) {
 	try {
 		const { userId } = req.user;
 
-		const user = await userModel
-			.findById(userId)
-			.populate({ path: 'favRecipes', select: '-ingredients -description -__v' });
+		const user = await userModel.findById(userId).populate({
+			path: 'favRecipes',
+			select: '-ingredients -description -__v',
+			populate: [
+				{ path: 'category', select: '-_id' },
+				{ path: 'cuisine', select: '-_id' },
+			],
+		});
 
 		if (!user) {
 			return res.status(401).json({ message: 'Not authorized' });

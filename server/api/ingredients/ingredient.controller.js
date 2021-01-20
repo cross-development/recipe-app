@@ -8,7 +8,7 @@ async function getAllIngredients(req, res, next) {
 		const { page, limit, query } = req.query;
 
 		const queryStr = query ? { name: { $regex: query, $options: 'i' } } : {};
-		const options = { page, limit, select: 'name' };
+		const options = { page, limit, select: 'name category' };
 
 		const results = await ingredientModel.paginate(queryStr, options);
 		const response = prettyResponse(results);
