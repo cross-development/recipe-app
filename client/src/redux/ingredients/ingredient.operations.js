@@ -12,11 +12,11 @@ const getAllIngredients = (page = 1) => dispatch => {
 		.catch(error => dispatch(ingredientActions.getAllIngredientsFailure(error)));
 };
 
-const getIngredientByQuery = (query, page = 1) => dispatch => {
+const getIngredientByQuery = (query, category, page = 1) => dispatch => {
 	dispatch(ingredientActions.getIngredientByQueryRequest());
 
 	axios
-		.get(`/api/ingredients?query=${query}&page=${page}`)
+		.get(`/api/ingredients?category=${category}&query=${query}&page=${page}`)
 		.then(({ data: { results } }) =>
 			dispatch(ingredientActions.getIngredientByQuerySuccess(results)),
 		)
