@@ -17,6 +17,7 @@ function validateQueryParams(req, res, next) {
 		page: Joi.number().min(minPageNumber).default(minPageNumber),
 		limit: Joi.number().min(minLimitNumber).default(minLimitNumber),
 		query: Joi.string().min(minQueryLength),
+		category: Joi.string(),
 	});
 
 	const validatedQueryParams = createQueryRules.validate(req.query);

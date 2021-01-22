@@ -5,9 +5,9 @@ const prettyResponse = require('@utils/prettyResponse');
 
 async function getAllIngredients(req, res, next) {
 	try {
-		const { page, limit, query } = req.query;
+		const { page, limit, query, category } = req.query;
 
-		const queryStr = query ? { name: { $regex: query, $options: 'i' } } : {};
+		const queryStr = query ? { category, name: { $regex: query, $options: 'i' } } : {};
 		const options = { page, limit, select: 'name category' };
 
 		const results = await ingredientModel.paginate(queryStr, options);
