@@ -13,7 +13,7 @@ const NameInput = ({ name, onChangeRecipe }) => (
 			autoComplete="off"
 			value={name}
 			onChange={onChangeRecipe}
-			placeholder="Введите название рецепта"
+			placeholder="Введите название"
 		/>
 	</StyledLabel>
 );

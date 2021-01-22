@@ -6,12 +6,13 @@ import { StyledLabel, StyledInput } from './CookingInput.styles';
 
 const CookingInput = ({ cookingTime, onChangeRecipe }) => (
 	<StyledLabel>
-		Время готовки, минут
+		Время готовки, мин
 		<StyledInput
 			type="number"
 			name="cookingTime"
 			autoComplete="off"
 			value={cookingTime}
+			placeholder="Введите время"
 			onChange={onChangeRecipe}
 		/>
 	</StyledLabel>

@@ -1,12 +1,17 @@
 //Core
 import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
+//Components
+import AsyncSelect from 'react-select/async';
+import Select from 'react-select';
+//Redux
+import { useDispatch, useSelector } from 'react-redux';
+import { ingredientOperations } from 'redux/ingredients';
 //Styles
 import {
 	StyledWrapper,
 	StyledLabel,
-	StyledNameInput,
-	StyledAmountInput,
+	StyledAmount,
 	StyledSelect,
 	StyledButton,
 } from './IngredientInput.styles';
@@ -25,18 +30,47 @@ const ingredientUnits = [
 ];
 
 const initialIngredientState = {
-	info: '',
+	value: '',
+	label: '',
 	amount: 0,
 	unit: '',
 };
 
 const IngredientInput = ({ onAddIngredient }) => {
 	const [ingredient, setIngredient] = useState(initialIngredientState);
+	const [ingredientCategory, setIngredientCategory] = useState(null);
+
+	const dispatch = useDispatch();
+	const { allIngredients, categories } = useSelector(state => state.ingredients);
 
 	const handleChangeIngredient = ({ target: { name, value } }) =>
 		setIngredient(prevState => ({ ...prevState, [name]: value }));
 
-	const handleAddIngredient = () => onAddIngredient(ingredient);
+	const onChangeSelect = ({ value, label }) =>
+		setIngredient(prevState => ({ ...prevState, value, label }));
+
+	const fetchIngredients = value => {
+		ingredientCategory &&
+			value.length > 2 &&
+			dispatch(ingredientOperations.getIngredientByQuery(value, ingredientCategory.label));
+	};
+
+	const loadOptions = async (value, callback) => {
+		await fetchIngredients(value);
+
+		const data = await allIngredients.map(({ _id, name }) => ({ label: name, value: _id }));
+		callback(data);
+	};
+
+	const handleAddIngredient = () => {
+		onAddIngredient(ingredient);
+		setIngredient(initialIngredientState);
+	};
+
+	const memoCategories = useMemo(
+		() => categories.map(({ _id, name }) => ({ label: name, value: _id })),
+		[categories],
+	);
 
 	const memoUnits = useMemo(
 		() =>
@@ -57,26 +91,44 @@ const IngredientInput = ({ onAddIngredient }) => {
 	return (
 		<StyledWrapper>
 			<StyledLabel>
-				<StyledNameInput
-					name="info"
-					type="text"
-					value={ingredient.info}
-					onChange={handleChangeIngredient}
+				Категория
+				<Select
+					value={ingredientCategory}
+					options={memoCategories}
+					placeholder={'Выберите категорию'}
+					onChange={setIngredientCategory}
 				/>
 			</StyledLabel>
 
 			<StyledLabel>
-				<StyledAmountInput
+				Название
+				<AsyncSelect
+					cacheOptions
+					value={ingredient}
+					onChange={onChangeSelect}
+					loadOptions={loadOptions}
+					placeholder={'Введите название'}
+				/>
+			</StyledLabel>
+
+			<StyledLabel>
+				Количество
+				<StyledAmount
 					name="amount"
 					type="number"
-					value={ingredient.amount}
+					required={true}
+					autoComplete="off"
+					placeholder={'Введите количество'}
+					value={ingredient.amount || ''}
 					onChange={handleChangeIngredient}
 				/>
 			</StyledLabel>
 
 			<StyledLabel>
+				Мера
 				<StyledSelect
 					name="unit"
+					required={true}
 					value={ingredient.unit || 'Выберите меру'}
 					onChange={handleChangeIngredient}
 				>

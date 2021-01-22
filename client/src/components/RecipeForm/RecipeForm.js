@@ -7,6 +7,7 @@ import CuisineInput from './CuisineInput';
 import CategoryInput from './CategoryInput';
 import CookingInput from './CookingInput';
 import IngredientInput from './IngredientInput';
+import IngredientsList from './IngredientsList';
 import NutritionInput from './NutritionInput';
 import DescInput from './DescInput';
 import ButtonsGroup from './ButtonsGroup';
@@ -59,12 +60,22 @@ const RecipeForm = ({ onToggleModalOpen }) => {
 
 	const handleAddIngredient = ingredient => setIngredient(prevState => [...prevState, ingredient]);
 
+	const prettyIngredients = ingredients =>
+		ingredients.map(({ value, amount, unit }) => ({ info: value, amount: parseInt(amount), unit }));
+
+	const handleRemoveIngredient = ({ target: { id } }) =>
+		setIngredient(prevState => prevState.filter(({ value }) => value !== id));
+
 	const handleSubmit = e => {
 		e.preventDefault();
 
-		const credential = { ...recipe, ingredients: [...ingredients] };
+		const updatedIngredients = prettyIngredients(ingredients);
 
-		dispatch(recipeOperations.addUserRecipe({ credential }));
+		const credential = { ...recipe, ingredients: [...updatedIngredients] };
+
+		console.log('credential', credential);
+
+		// dispatch(recipeOperations.addUserRecipe({ credential }));
 		onToggleModalOpen();
 	};
 
@@ -86,6 +97,10 @@ const RecipeForm = ({ onToggleModalOpen }) => {
 				<CookingInput cookingTime={recipe.cookingTime} onChangeRecipe={handleChangeRecipe} />
 
 				<IngredientInput onAddIngredient={handleAddIngredient} />
+
+				{ingredients.length > 0 && (
+					<IngredientsList ingredients={ingredients} onRemoveIngredient={handleRemoveIngredient} />
+				)}
 
 				<NutritionInput
 					protein={recipe.protein}

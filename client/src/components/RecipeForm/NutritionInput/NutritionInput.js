@@ -8,22 +8,46 @@ const NutritionInput = ({ protein, fat, carbs, kcal, onChangeRecipe }) => (
 	<StyledWrapper>
 		<StyledLabel>
 			Белки, г
-			<StyledInput name="protein" type="number" value={protein} onChange={onChangeRecipe} />
+			<StyledInput
+				name="protein"
+				type="number"
+				value={protein || ''}
+				placeholder="0.00"
+				onChange={onChangeRecipe}
+			/>
 		</StyledLabel>
 
 		<StyledLabel>
 			Жиры, г
-			<StyledInput name="fat" type="number" value={fat} onChange={onChangeRecipe} />
+			<StyledInput
+				name="fat"
+				type="number"
+				value={fat || ''}
+				placeholder="0.00"
+				onChange={onChangeRecipe}
+			/>
 		</StyledLabel>
 
 		<StyledLabel>
 			Углеводы, г
-			<StyledInput name="carbs" type="number" value={carbs} onChange={onChangeRecipe} />
+			<StyledInput
+				name="carbs"
+				type="number"
+				value={carbs || ''}
+				placeholder="0.00"
+				onChange={onChangeRecipe}
+			/>
 		</StyledLabel>
 
 		<StyledLabel>
 			Калорийность, ккал
-			<StyledInput name="kcal" type="number" value={kcal} onChange={onChangeRecipe} />
+			<StyledInput
+				name="kcal"
+				type="number"
+				value={kcal || ''}
+				placeholder="0.00"
+				onChange={onChangeRecipe}
+			/>
 		</StyledLabel>
 	</StyledWrapper>
 );
