@@ -46,4 +46,30 @@ async function getRecipeById(req, res, next) {
 	}
 }
 
-module.exports = { getAllRecipes, getRecipeById };
+async function getRecipesByFilter(req, res, next) {
+	try {
+		const {
+			params: { id, filter },
+			query: { page, limit },
+		} = req;
+
+		const options = {
+			page,
+			limit,
+			select: '-ingredients -description -__v',
+			populate: [
+				{ path: 'category', select: '-_id' },
+				{ path: 'cuisine', select: '-_id' },
+			],
+		};
+
+		const results = await recipeModel.paginate({ [filter]: id }, options);
+		const response = prettyResponse(results);
+
+		!response ? res.status(404).json({ message: 'Not found' }) : res.status(200).json(response);
+	} catch (error) {
+		next(error);
+	}
+}
+
+module.exports = { getAllRecipes, getRecipeById, getRecipesByFilter };

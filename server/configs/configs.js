@@ -22,6 +22,10 @@ const configs = {
 		minLimitNumber: 10,
 		minQueryLength: 2,
 	},
+
+	filter: {
+		filterEnum: ['category', 'cuisine'],
+	},
 };
 
 module.exports = configs;
