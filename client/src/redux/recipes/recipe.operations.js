@@ -21,6 +21,15 @@ const getRecipeByQuery = (query, page = 1) => dispatch => {
 		.catch(error => dispatch(recipeActions.getRecipeByQueryFailure(error)));
 };
 
+const getRecipesByFilter = (category, itemId, page = 1) => dispatch => {
+	dispatch(recipeActions.getRecipesByFilterRequest());
+
+	axios
+		.get(`/api/recipes/${category}/${itemId}?page=${page}`)
+		.then(({ data: { results } }) => dispatch(recipeActions.getRecipesByFilterSuccess(results)))
+		.catch(error => dispatch(recipeActions.getRecipesByFilterFailure(error)));
+};
+
 const getRecipeById = id => dispatch => {
 	dispatch(recipeActions.getRecipeByIdRequest());
 
@@ -78,6 +87,7 @@ const getRecipesCuisines = () => dispatch => {
 const recipeOperations = {
 	getAllRecipes,
 	getRecipeByQuery,
+	getRecipesByFilter,
 	getRecipeById,
 	getUserRecipes,
 	addUserRecipe,

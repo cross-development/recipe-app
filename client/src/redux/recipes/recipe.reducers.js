@@ -13,6 +13,7 @@ const removeRecipeHandler = (state, { payload }) => state.filter(({ _id }) => _i
 const allRecipes = createReducer([], {
 	[recipeActions.getAllRecipesSuccess]: getRecipesHandler,
 	[recipeActions.getRecipeByQuerySuccess]: getRecipesHandler,
+	[recipeActions.getRecipesByFilterSuccess]: getRecipesHandler,
 });
 
 const recipeDetails = createReducer(null, {
@@ -39,6 +40,7 @@ const cuisines = createReducer([], {
 const error = createReducer(null, {
 	[recipeActions.getAllRecipesFailure]: (state, { payload }) => payload,
 	[recipeActions.getRecipeByQueryFailure]: (state, { payload }) => payload,
+	[recipeActions.getRecipesByFilterFailure]: (state, { payload }) => payload,
 	[recipeActions.getRecipeByIdFailure]: (state, { payload }) => payload,
 	[recipeActions.getUserRecipesFailure]: (state, { payload }) => payload,
 	[recipeActions.addUserRecipeFailure]: (state, { payload }) => payload,
@@ -56,6 +58,10 @@ const loading = createReducer(false, {
 	[recipeActions.getRecipeByQueryRequest]: () => true,
 	[recipeActions.getRecipeByQuerySuccess]: () => false,
 	[recipeActions.getRecipeByQueryFailure]: () => false,
+
+	[recipeActions.getRecipesByFilterRequest]: () => true,
+	[recipeActions.getRecipesByFilterSuccess]: () => false,
+	[recipeActions.getRecipesByFilterFailure]: () => false,
 
 	[recipeActions.getRecipeByIdRequest]: () => true,
 	[recipeActions.getRecipeByIdSuccess]: () => false,

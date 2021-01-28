@@ -1,5 +1,5 @@
 //Core
-import React, { useState } from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 //Components
 import Carousel from './Carousel';
@@ -8,23 +8,42 @@ import { useSelector } from 'react-redux';
 //Styles
 import { StyledContainer, StyledLabel, StyledSelect } from './MainFilter.styles';
 
-const MainFilter = () => {
-	const [data, setData] = useState([]);
+const filterOptions = [
+	{ value: 'category', label: 'Категории' },
+	{ value: 'cuisine', label: 'Кухни' },
+];
 
+const MainFilter = ({ onChangeFilterId, onChangeFilterCategory, filter }) => {
 	const { categories, cuisines } = useSelector(state => state.recipes);
 
-	const handleSetItem = id => console.log(id);
+	const data = filter === filterOptions[0].value ? categories : cuisines;
+
+	const memoOptions = useMemo(
+		() =>
+			filterOptions.reduce((acc, item) => {
+				const option = (
+					<option key={item.value} value={item.value}>
+						{item.label}
+					</option>
+				);
+
+				acc.push(option);
+
+				return acc;
+			}, []),
+		[],
+	);
 
 	return (
 		<StyledContainer>
 			<StyledLabel>
-				Search by
-				<StyledSelect>
-					
+				Поиск по:
+				<StyledSelect name="filterCategory" value={filter} onChange={onChangeFilterCategory}>
+					{memoOptions}
 				</StyledSelect>
 			</StyledLabel>
 
-			<Carousel onSetItem={handleSetItem} data={categories} />
+			<Carousel data={data} pathToSearch={filter} onChangeFilterId={onChangeFilterId} />
 		</StyledContainer>
 	);
 };

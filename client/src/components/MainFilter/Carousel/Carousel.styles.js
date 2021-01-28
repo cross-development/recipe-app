@@ -1,7 +1,7 @@
 //Core
 import styled from 'styled-components';
 
-export const StyledSliderWrap = styled.div`
+export const StyledWrap = styled.div`
 	padding: 0 20px;
 	max-width: 1000px;
 	margin: 0 auto;
@@ -37,3 +37,5 @@ export const StyledButton = styled.button`
 	align-items: center;
 	justify-content: center;
 `;
+
+export const StyledImg = styled.img``;

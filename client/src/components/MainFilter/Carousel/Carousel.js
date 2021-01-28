@@ -4,20 +4,22 @@ import PropTypes from 'prop-types';
 //Components
 import ItemsCarousel from 'react-items-carousel';
 //Styles
-import { StyledSliderWrap, StyledItemWrap, StyledItem, StyledButton } from './Carousel.styles';
+import { StyledWrap, StyledItemWrap, StyledItem, StyledButton, StyledImg } from './Carousel.styles';
 import { HiArrowNarrowLeft, HiArrowNarrowRight } from 'react-icons/hi';
 
-const Carousel = ({ data, onSetItem }) => {
+const Carousel = ({ data, pathToSearch, onChangeFilterId }) => {
 	const [activeItemIndex, setActiveItemIndex] = useState(0);
 
-	const carouselItems = data.map(({ _id, name }) => (
+	const carouselItems = data.map(({ _id, label, img }) => (
 		<StyledItemWrap key={_id}>
-			<StyledItem onClick={() => onSetItem(_id)}>{name}</StyledItem>
+			<StyledImg src={`${process.env.PUBLIC_URL}/icons/${pathToSearch}/${img}.png`} />
+
+			<StyledItem onClick={() => onChangeFilterId(_id)}>{label}</StyledItem>
 		</StyledItemWrap>
 	));
 
 	return (
-		<StyledSliderWrap>
+		<StyledWrap>
 			<ItemsCarousel
 				requestToChangeActive={setActiveItemIndex}
 				activeItemIndex={activeItemIndex}
@@ -37,7 +39,7 @@ const Carousel = ({ data, onSetItem }) => {
 				chevronWidth={40}
 				children={carouselItems}
 			/>
-		</StyledSliderWrap>
+		</StyledWrap>
 	);
 };
 

@@ -5,4 +5,4 @@ export const StyledContainer = styled.div``;
 
 export const StyledLabel = styled.label``;
 
-export const StyledSelect = styled.div``;
+export const StyledSelect = styled.select``;

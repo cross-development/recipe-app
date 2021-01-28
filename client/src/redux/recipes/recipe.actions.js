@@ -9,6 +9,10 @@ const getRecipeByQueryRequest = createAction('recipes/getRecipeByQueryRequest');
 const getRecipeByQuerySuccess = createAction('recipes/getRecipeByQuerySuccess');
 const getRecipeByQueryFailure = createAction('recipes/getRecipeByQueryFailure');
 
+const getRecipesByFilterRequest = createAction('recipes/getRecipesByFilterRequest');
+const getRecipesByFilterSuccess = createAction('recipes/getRecipesByFilterSuccess');
+const getRecipesByFilterFailure = createAction('recipes/getRecipesByFilterFailure');
+
 const getRecipeByIdRequest = createAction('recipes/getRecipeByIdRequest');
 const getRecipeByIdSuccess = createAction('recipes/getRecipeByIdSuccess');
 const getRecipeByIdFailure = createAction('recipes/getRecipeByIdFailure');
@@ -41,6 +45,10 @@ const recipeActions = {
 	getRecipeByQueryRequest,
 	getRecipeByQuerySuccess,
 	getRecipeByQueryFailure,
+
+	getRecipesByFilterRequest,
+	getRecipesByFilterSuccess,
+	getRecipesByFilterFailure,
 
 	getRecipeByIdRequest,
 	getRecipeByIdSuccess,
