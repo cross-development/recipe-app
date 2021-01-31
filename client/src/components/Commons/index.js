@@ -4,3 +4,4 @@ export { default as Error } from './Error';
 export { default as Spinner } from './Spinner';
 export { default as Notification } from './Notification';
 export { default as NotFound } from './NotFound';
+export { default as Pagination } from './Pagination';
