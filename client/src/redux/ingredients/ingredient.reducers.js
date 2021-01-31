@@ -4,10 +4,18 @@ import { createReducer } from '@reduxjs/toolkit';
 //Redux
 import ingredientActions from './ingredient.actions';
 
+const initialIngredientsState = {
+	results: [],
+	limitResults: 10,
+	totalResults: 0,
+	page: 1,
+	totalPages: 1,
+};
+
 //Ingredient reducers
-const allIngredients = createReducer([], {
-	[ingredientActions.getAllIngredientsSuccess]: (state, { payload }) => [...payload],
-	[ingredientActions.getIngredientByQuerySuccess]: (state, { payload }) => [...payload],
+const allIngredients = createReducer(initialIngredientsState, {
+	[ingredientActions.getAllIngredientsSuccess]: (state, { payload }) => ({ ...payload }),
+	[ingredientActions.getIngredientByQuerySuccess]: (state, { payload }) => ({ ...payload }),
 });
 
 const ingredientDetails = createReducer(null, {

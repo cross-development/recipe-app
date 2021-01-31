@@ -8,7 +8,7 @@ const getAllRecipes = (page = 1) => dispatch => {
 
 	axios
 		.get(`/api/recipes?page=${page}`)
-		.then(({ data: { results } }) => dispatch(recipeActions.getAllRecipesSuccess(results)))
+		.then(({ data }) => dispatch(recipeActions.getAllRecipesSuccess(data)))
 		.catch(error => dispatch(recipeActions.getAllRecipesFailure(error)));
 };
 
@@ -17,7 +17,7 @@ const getRecipeByQuery = (query, page = 1) => dispatch => {
 
 	axios
 		.get(`/api/recipes?query=${query}&page=${page}`)
-		.then(({ data: { results } }) => dispatch(recipeActions.getRecipeByQuerySuccess(results)))
+		.then(({ data }) => dispatch(recipeActions.getRecipeByQuerySuccess(data)))
 		.catch(error => dispatch(recipeActions.getRecipeByQueryFailure(error)));
 };
 
@@ -26,7 +26,7 @@ const getRecipesByFilter = (category, itemId, page = 1) => dispatch => {
 
 	axios
 		.get(`/api/recipes/${category}/${itemId}?page=${page}`)
-		.then(({ data: { results } }) => dispatch(recipeActions.getRecipesByFilterSuccess(results)))
+		.then(({ data }) => dispatch(recipeActions.getRecipesByFilterSuccess(data)))
 		.catch(error => dispatch(recipeActions.getRecipesByFilterFailure(error)));
 };
 

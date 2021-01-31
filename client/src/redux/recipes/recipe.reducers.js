@@ -4,26 +4,31 @@ import { createReducer } from '@reduxjs/toolkit';
 //Redux
 import recipeActions from './recipe.actions';
 
-//Handler reducers
-const getRecipesHandler = (state, { payload }) => [...payload];
-const addRecipeHandler = (state, { payload }) => [...state, payload];
-const removeRecipeHandler = (state, { payload }) => state.filter(({ _id }) => _id !== payload);
+const initialRecipesState = {
+	results: [],
+	limitResults: 10,
+	totalResults: 0,
+	page: 1,
+	totalPages: 1,
+};
 
 //Recipe reducers
-const allRecipes = createReducer([], {
-	[recipeActions.getAllRecipesSuccess]: getRecipesHandler,
-	[recipeActions.getRecipeByQuerySuccess]: getRecipesHandler,
-	[recipeActions.getRecipesByFilterSuccess]: getRecipesHandler,
+const allRecipes = createReducer(initialRecipesState, {
+	[recipeActions.getAllRecipesSuccess]: (state, { payload }) => ({ ...payload }),
+	[recipeActions.getRecipeByQuerySuccess]: (state, { payload }) => ({ ...payload }),
+	[recipeActions.getRecipesByFilterSuccess]: (state, { payload }) => ({ ...payload }),
+});
+
+const removeRecipeHandler = (state, { payload }) => state.filter(({ _id }) => _id !== payload);
+
+const userRecipes = createReducer([], {
+	[recipeActions.getUserRecipesSuccess]: (state, { payload }) => [...payload],
+	[recipeActions.addUserRecipeSuccess]: (state, { payload }) => [...state, payload],
+	[recipeActions.removeUserRecipeSuccess]: removeRecipeHandler,
 });
 
 const recipeDetails = createReducer(null, {
 	[recipeActions.getRecipeByIdSuccess]: (state, { payload }) => payload,
-});
-
-const userRecipes = createReducer([], {
-	[recipeActions.getUserRecipesSuccess]: getRecipesHandler,
-	[recipeActions.addUserRecipeSuccess]: addRecipeHandler,
-	[recipeActions.removeUserRecipeSuccess]: removeRecipeHandler,
 });
 
 //Categories reducer

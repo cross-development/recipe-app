@@ -8,7 +8,7 @@ const getAllIngredients = (page = 1) => dispatch => {
 
 	axios
 		.get(`/api/ingredients?page=${page}`)
-		.then(({ data: { results } }) => dispatch(ingredientActions.getAllIngredientsSuccess(results)))
+		.then(({ data }) => dispatch(ingredientActions.getAllIngredientsSuccess(data)))
 		.catch(error => dispatch(ingredientActions.getAllIngredientsFailure(error)));
 };
 
@@ -17,9 +17,7 @@ const getIngredientByQuery = (query, category, page = 1) => dispatch => {
 
 	axios
 		.get(`/api/ingredients?category=${category}&query=${query}&page=${page}`)
-		.then(({ data: { results } }) =>
-			dispatch(ingredientActions.getIngredientByQuerySuccess(results)),
-		)
+		.then(({ data }) => dispatch(ingredientActions.getIngredientByQuerySuccess(data)))
 		.catch(error => dispatch(ingredientActions.getIngredientByQueryFailure(error)));
 };
 
