@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const morgan = require('morgan');
 require('dotenv').config();
+const fileStorage = require('../middleware/fileStorage');
 //Router
 const authRouter = require('@api/auth/auth.router');
 const userRouter = require('@api/users/user.router');
@@ -35,6 +36,8 @@ class Server {
 	}
 
 	initMiddleware() {
+		this.server.use(express.static('public'));
+		this.server.use(fileStorage.single('avatar'));
 		this.server.use(express.json());
 		this.server.use(morgan('combined', { stream: accessLogStream }));
 		this.server.use(cors({ origin: '*' }));
