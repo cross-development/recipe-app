@@ -7,16 +7,16 @@ const morgan = require('morgan');
 require('dotenv').config();
 const fileStorage = require('../middleware/fileStorage');
 //Router
-const authRouter = require('@api/auth/auth.router');
-const userRouter = require('@api/users/user.router');
-const recipeRouter = require('@api/recipes/recipe.router');
-const favoriteRouter = require('@api/favorites/favorite.router');
-const ingredientRouter = require('@api/ingredients/ingredient.router');
-const recipeCuisineRouter = require('@api/recipeCuisines/recipeCuisine.router');
-const recipeCategoryRouter = require('@api/recipeCategories/recipeCategory.router');
-const ingredientCategoryRouter = require('@api/ingredientCategories/ingredientCategories.router');
+const authRouter = require('../api/auth/auth.router');
+const userRouter = require('../api/users/user.router');
+const recipeRouter = require('../api/recipes/recipe.router');
+const favoriteRouter = require('../api/favorites/favorite.router');
+const ingredientRouter = require('../api/ingredients/ingredient.router');
+const recipeCuisineRouter = require('../api/recipeCuisines/recipeCuisine.router');
+const recipeCategoryRouter = require('../api/recipeCategories/recipeCategory.router');
+const ingredientCategoryRouter = require('../api/ingredientCategories/ingredientCategories.router');
 //Handle logs
-const accessLogStream = require('@utils/accessLogStream');
+const accessLogStream = require('../utils/accessLogStream');
 
 class Server {
 	constructor() {

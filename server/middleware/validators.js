@@ -7,8 +7,7 @@ const Joi = require('joi');
 //Crypt
 const jwt = require('jsonwebtoken');
 //Configs
-const configs = require('@configs');
-const { func } = require('joi');
+const configs = require('../configs');
 
 //The middleware validate query params (page, limit, query)
 function validateQueryParams(req, res, next) {

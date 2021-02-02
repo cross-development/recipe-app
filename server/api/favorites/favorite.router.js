@@ -3,11 +3,11 @@ const { Router } = require('express');
 //Controller
 const favoriteController = require('./favorite.controller');
 //Middleware
-const middleware = require('@middleware');
+const validators = require('../../middleware/validators');
 
 const { getFavIngredients, addFavIngredient, removeFavIngredient } = favoriteController;
 const { getFavRecipes, addFavRecipe, removeFavRecipe } = favoriteController;
-const { validateToken, validateId, validateQueryParams } = middleware;
+const { validateToken, validateId, validateQueryParams } = validators;
 
 const favoriteRouter = Router();
 

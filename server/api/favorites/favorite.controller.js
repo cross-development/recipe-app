@@ -1,7 +1,7 @@
 //Models
-const userModel = require('@api/users/user.model');
-const recipeModel = require('@api/recipes/recipe.model');
-const ingredientModel = require('@api/ingredients/ingredient.model');
+const userModel = require('../users/user.model');
+const recipeModel = require('../recipes/recipe.model');
+const ingredientModel = require('../ingredients/ingredient.model');
 
 // =============================================================================
 // FAVORITES INGREDIENTS                                                      ||

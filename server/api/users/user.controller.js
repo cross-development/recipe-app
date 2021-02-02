@@ -1,8 +1,8 @@
 //Models
 const userModel = require('./user.model');
-const recipeModel = require('@api/recipes/recipe.model');
+const recipeModel = require('../recipes/recipe.model');
 //Utils
-const prettyResponse = require('@utils/prettyResponse');
+const prettyResponse = require('../../utils/prettyResponse');
 
 // =============================================================================
 // CURRENT USER                                                               ||

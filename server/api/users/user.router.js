@@ -4,11 +4,11 @@ const { Router } = require('express');
 const userController = require('./user.controller');
 //Middleware
 const userMiddleware = require('./user.middleware');
-const middleware = require('@middleware');
+const validators = require('../../middleware/validators');
 
 const { getCurrentUser, getUserRecipes, addRecipe, removeRecipe, updateRecipe } = userController;
 const { validateCreateRecipe, validateUpdateRecipe } = userMiddleware;
-const { validateId, validateQueryParams, validateToken } = middleware;
+const { validateId, validateQueryParams, validateToken } = validators;
 
 const userRouter = Router();
 

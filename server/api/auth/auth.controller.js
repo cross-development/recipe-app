@@ -47,11 +47,7 @@ async function signInUser(req, res, next) {
 		await userModel.findByIdAndUpdate(user._id, { $set: { token: userToken } });
 
 		const response = {
-			user: {
-				username: user.username,
-				email: user.email,
-				subscription: user.subscription,
-			},
+			user: { username: user.username, email: user.email },
 			token: userToken,
 		};
 

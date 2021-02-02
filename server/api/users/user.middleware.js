@@ -1,7 +1,7 @@
 //Validation package
 const Joi = require('joi');
 //Configs
-const configs = require('@configs');
+const configs = require('../../configs');
 
 //The middleware validate recipe fields before create
 function validateCreateRecipe(req, res, next) {
