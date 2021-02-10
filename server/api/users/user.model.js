@@ -13,6 +13,8 @@ const userSchema = new Schema({
 	userRecipes: [{ type: ObjectId, ref: 'Recipe' }],
 	favRecipes: [{ type: ObjectId, ref: 'Recipe' }],
 	favIngredients: [{ type: ObjectId, ref: 'Ingredient' }],
+	verificationToken: { type: String, required: false },
+	isVerified: { type: Boolean, required: false, default: false },
 });
 
 module.exports = model('User', userSchema);

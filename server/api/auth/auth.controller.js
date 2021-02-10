@@ -1,24 +1,30 @@
 //Models
 const userModel = require('../users/user.model');
 //Crypt
+const crypto = require('crypto');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+//Services
+const sendEmail = require('../../services/email');
 
 //User authentication
 async function singUpUser(req, res, next) {
 	try {
-		const { username, email, password } = req.body;
-
-		const existedUser = await userModel.findOne({ email });
+		const existedUser = await userModel.findOne({ email: req.body.email });
 
 		if (existedUser) {
 			return res.status(409).json({ message: 'Email in use' });
 		}
 
-		const passwordHash = await bcrypt.hash(password, parseInt(process.env.BCRYPT_SALT_ROUND));
-		const user = await userModel.create({ username, email, password: passwordHash });
+		const pwdHash = await bcrypt.hash(req.body.password, parseInt(process.env.BCRYPT_SALT_ROUND));
+		const verificationToken = await crypto.randomBytes(16).toString('hex');
 
-		return res.status(201).json({ username: user.username, email: user.email });
+		const user = await userModel.create({ ...req.body, password: pwdHash, verificationToken });
+		const { username, email, verificationToken } = user;
+
+		await sendEmail(email, verificationToken);
+
+		return res.status(201).json({ username, email, verificationToken });
 	} catch (error) {
 		next(error);
 	}
@@ -74,8 +80,32 @@ async function signOutUser(req, res, next) {
 	}
 }
 
+//Email verification
+async function verifyEmailToken(req, res, next) {
+	try {
+		const { verificationToken } = req.params;
+
+		const user = await userModel.findOne({ verificationToken });
+
+		if (!user) {
+			return res.status(404).json({ message: 'User not found' });
+		}
+
+		await userModel.findByIdAndUpdate(
+			user._id,
+			{ $unset: { verificationToken: '' }, $set: { isVerified: true } },
+			{ new: true },
+		);
+
+		return res.status(200).send();
+	} catch (err) {
+		next(err);
+	}
+}
+
 module.exports = {
 	singUpUser,
 	signInUser,
 	signOutUser,
+	verifyEmailToken,
 };
