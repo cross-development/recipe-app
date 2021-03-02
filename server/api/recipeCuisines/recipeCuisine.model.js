@@ -1,4 +1,4 @@
-//Core
+//Core Mongoose
 const { Schema, model } = require('mongoose');
 
 const cuisineSchema = new Schema({

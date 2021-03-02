@@ -1,93 +1,72 @@
-//Core
-const {
-	Types: { ObjectId },
-} = require('mongoose');
-//Validate
-const Joi = require('joi');
-//Crypt
-const jwt = require('jsonwebtoken');
-//Configs
-const configs = require('../configs');
+// //Core
+// const {
+// 	Types: { ObjectId },
+// } = require('mongoose');
+// //Validate
+// const Joi = require('joi');
+// //Crypt
+// const jwt = require('jsonwebtoken');
+// //Configs
+// const configs = require('../configs');
 
 //The middleware validate query params (page, limit, query)
-function validateQueryParams(req, res, next) {
-	const { minPageNumber, minLimitNumber, minQueryLength } = configs.queryParams;
+// function validateQueryParams(req, res, next) {
+// 	const { minPageNumber, minLimitNumber, minQueryLength } = configs.queryParams;
 
-	const createQueryRules = Joi.object({
-		page: Joi.number().min(minPageNumber).default(minPageNumber),
-		limit: Joi.number().min(minLimitNumber).default(minLimitNumber),
-		query: Joi.string().min(minQueryLength),
-		category: Joi.string(),
-	});
+// 	const createQueryRules = Joi.object({
+// 		page: Joi.number().min(minPageNumber).default(minPageNumber),
+// 		limit: Joi.number().min(minLimitNumber).default(minLimitNumber),
+// 		query: Joi.string().min(minQueryLength),
+// 		category: Joi.string(),
+// 	});
 
-	const validatedQueryParams = createQueryRules.validate(req.query);
+// 	const validatedQueryParams = createQueryRules.validate(req.query);
 
-	if (validatedQueryParams.error) {
-		const message = validatedQueryParams.error.details[0].message;
+// 	if (validatedQueryParams.error) {
+// 		const message = validatedQueryParams.error.details[0].message;
 
-		return res.status(400).json({ message });
-	}
+// 		return res.status(400).json({ message });
+// 	}
 
-	req.query = validatedQueryParams.value;
+// 	req.query = validatedQueryParams.value;
 
-	next();
-}
+// 	next();
+// }
 
-//The middleware validate user token
-async function validateToken(req, res, next) {
-	try {
-		const authorizationHeader = req.get('Authorization') || '';
-		const token = authorizationHeader.replace('Bearer ', '');
+// //The middleware validate filter value
+// function validateFilter(req, res, next) {
+// 	const { filterEnum } = configs.filter;
 
-		try {
-			const userId = await jwt.verify(token, process.env.JWT_SECRET_KEY).userId;
+// 	const createQueryRules = Joi.object({
+// 		filter: Joi.string().valid(...filterEnum),
+// 	});
 
-			req.user = { userId, token };
+// 	const validatedQueryParams = createQueryRules.validate({ filter: req.params.filter });
 
-			next();
-		} catch (err) {
-			return res.status(401).json({ message: 'Not authorized' });
-		}
-	} catch (err) {
-		next(err);
-	}
-}
+// 	if (validatedQueryParams.error) {
+// 		const message = validatedQueryParams.error.details[0].message;
 
-//The middleware validate filter value
-function validateFilter(req, res, next) {
-	const { filterEnum } = configs.filter;
+// 		return res.status(400).json({ message });
+// 	}
 
-	const createQueryRules = Joi.object({
-		filter: Joi.string().valid(...filterEnum),
-	});
+// 	req.params = { ...req.params, ...validatedQueryParams.value };
 
-	const validatedQueryParams = createQueryRules.validate({ filter: req.params.filter });
-
-	if (validatedQueryParams.error) {
-		const message = validatedQueryParams.error.details[0].message;
-
-		return res.status(400).json({ message });
-	}
-
-	req.params = { ...req.params, ...validatedQueryParams.value };
-
-	next();
-}
+// 	next();
+// }
 
 //The middleware validate id
-function validateId(req, res, next) {
-	const { id } = req.params;
+// function validateId(req, res, next) {
+// 	const { id } = req.params;
 
-	if (!ObjectId.isValid(id)) {
-		return res.status(400).send({ message: 'invalid id' });
-	}
+// 	if (!ObjectId.isValid(id)) {
+// 		return res.status(400).send({ message: 'invalid id' });
+// 	}
 
-	next();
-}
+// 	next();
+// }
 
-module.exports = {
-	validateQueryParams,
-	validateToken,
-	validateFilter,
-	validateId,
-};
+// module.exports = {
+// 	validateQueryParams,
+// 	validateFilter,
+// 	validateId,
+// };

@@ -9,7 +9,7 @@ const configs = {
 	recipes: {
 		ingredientUnits: ['кг', 'г', 'л', 'мл', 'шт', 'стакан', 'ст.л.', 'ч.л.', 'щепотка', 'по вкусу'],
 
-		minNameLength: 2,
+		minTitleLength: 2,
 		minCategoryLength: 2,
 		minCuisineLength: 2,
 		minCookingLength: 2,

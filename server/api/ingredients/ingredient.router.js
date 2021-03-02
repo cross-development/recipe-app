@@ -2,18 +2,20 @@
 const { Router } = require('express');
 //Controller
 const ingredientController = require('./ingredient.controller');
-//Middleware
-const validators = require('../../middleware/validators');
+//Helpers
+const validate = require('../../helpers/validate');
+const tryCatchHandler = require('../../helpers/tryCatchHandler');
+const validationSchemas = require('../../helpers/validationSchemas');
 
 const { getAllIngredients, getIngredientById } = ingredientController;
-const { validateId, validateQueryParams } = validators;
+const { idSchema, querySchema } = validationSchemas;
 
 const ingredientRouter = Router();
 
 // @ GET /api/ingredients
-ingredientRouter.get('/', validateQueryParams, getAllIngredients);
+ingredientRouter.get('/', validate(querySchema, 'query'), tryCatchHandler(getAllIngredients));
 
 // @ GET /api/ingredients/:id
-ingredientRouter.get('/:id', validateId, getIngredientById);
+ingredientRouter.get('/:id', validate(idSchema, 'params'), tryCatchHandler(getIngredientById));
 
 module.exports = ingredientRouter;

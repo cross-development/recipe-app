@@ -1,32 +1,66 @@
 //Core
 const { Router } = require('express');
 //Controller
+const authController = require('../auth/auth.controller');
 const favoriteController = require('./favorite.controller');
-//Middleware
-const validators = require('../../middleware/validators');
+//Helpers
+const validate = require('../../helpers/validate');
+const tryCatchHandler = require('../../helpers/tryCatchHandler');
+const validationSchemas = require('../../helpers/validationSchemas');
 
 const { getFavIngredients, addFavIngredient, removeFavIngredient } = favoriteController;
 const { getFavRecipes, addFavRecipe, removeFavRecipe } = favoriteController;
-const { validateToken, validateId, validateQueryParams } = validators;
+const { validateToken } = authController;
+const { idSchema, querySchema } = validationSchemas;
 
 const favoriteRouter = Router();
 
 // @ GET /api/favorites/ingredients
-favoriteRouter.get('/ingredients', validateToken, validateQueryParams, getFavIngredients);
+favoriteRouter.get(
+	'/ingredients',
+	tryCatchHandler(validateToken),
+	validate(querySchema, 'query'),
+	tryCatchHandler(getFavIngredients),
+);
 
 // @ PATCH /api/favorites/ingredients/:id
-favoriteRouter.patch('/ingredients/:id', validateToken, validateId, addFavIngredient);
+favoriteRouter.patch(
+	'/ingredients/:id',
+	tryCatchHandler(validateToken),
+	validate(idSchema, 'params'),
+	tryCatchHandler(addFavIngredient),
+);
 
 // @ DELETE /api/favorites/ingredients/:id
-favoriteRouter.delete('/ingredients/:id', validateToken, validateId, removeFavIngredient);
+favoriteRouter.delete(
+	'/ingredients/:id',
+	tryCatchHandler(validateToken),
+	validate(idSchema, 'params'),
+	tryCatchHandler(removeFavIngredient),
+);
 
 // @ GET /api/favorites/recipes
-favoriteRouter.get('/recipes', validateToken, validateQueryParams, getFavRecipes);
+favoriteRouter.get(
+	'/recipes',
+	tryCatchHandler(validateToken),
+	validate(querySchema, 'query'),
+	tryCatchHandler(getFavRecipes),
+);
 
 // @ PATCH /api/favorites/recipes/:id
-favoriteRouter.patch('/recipes/:id', validateToken, validateId, addFavRecipe);
+favoriteRouter.patch(
+	'/recipes/:id',
+	tryCatchHandler(validateToken),
+	validate(idSchema, 'params'),
+	tryCatchHandler(addFavRecipe),
+);
 
 // @ DELETE /api/favorites/recipes/:id
-favoriteRouter.delete('/recipes/:id', validateToken, validateId, removeFavRecipe);
+favoriteRouter.delete(
+	'/recipes/:id',
+	tryCatchHandler(validateToken),
+	validate(idSchema, 'params'),
+	tryCatchHandler(removeFavRecipe),
+);
 
 module.exports = favoriteRouter;

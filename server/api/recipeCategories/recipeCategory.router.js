@@ -1,11 +1,13 @@
 //Core
 const { Router } = require('express');
 //Controller
-const recipeCategoryController = require('./recipeCategory.controller');
+const { getRecipesCategories } = require('./recipeCategory.controller');
+//Helpers
+const tryCatchHandler = require('../../helpers/tryCatchHandler');
 
 const recipeCategoryRouter = Router();
 
 // @ GET /api/recipe-categories
-recipeCategoryRouter.get('/', recipeCategoryController.getRecipesCategories);
+recipeCategoryRouter.get('/', tryCatchHandler(getRecipesCategories));
 
 module.exports = recipeCategoryRouter;

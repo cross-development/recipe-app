@@ -1,11 +1,13 @@
 //Core
 const { Router } = require('express');
 //Controller
-const ingredientCategoriesController = require('./ingredientCategories.controller');
+const { getIngredientCategories } = require('./ingredientCategories.controller');
+//Helpers
+const tryCatchHandler = require('../../helpers/tryCatchHandler');
 
 const ingredientCategoryRouter = Router();
 
 // @ GET /api/ingredient-categories
-ingredientCategoryRouter.get('/', ingredientCategoriesController.getIngredientCategories);
+ingredientCategoryRouter.get('/', tryCatchHandler(getIngredientCategories));
 
 module.exports = ingredientCategoryRouter;

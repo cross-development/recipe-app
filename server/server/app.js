@@ -2,9 +2,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
 //Middleware
-const cors = require('cors');
-const morgan = require('morgan');
 require('dotenv').config();
+const cors = require('cors');
+const helmet = require('helmet');
 const fileStorage = require('../middleware/fileStorage');
 //Router
 const authRouter = require('../api/auth/auth.router');
@@ -15,8 +15,6 @@ const ingredientRouter = require('../api/ingredients/ingredient.router');
 const recipeCuisineRouter = require('../api/recipeCuisines/recipeCuisine.router');
 const recipeCategoryRouter = require('../api/recipeCategories/recipeCategory.router');
 const ingredientCategoryRouter = require('../api/ingredientCategories/ingredientCategories.router');
-//Handle logs
-const accessLogStream = require('../utils/accessLogStream');
 
 class Server {
 	constructor() {
@@ -36,11 +34,11 @@ class Server {
 	}
 
 	initMiddleware() {
+		this.server.use(helmet());
 		this.server.use(express.static('public'));
 		this.server.use(fileStorage.single('avatar'));
 		this.server.use(express.json());
-		this.server.use(morgan('combined', { stream: accessLogStream }));
-		this.server.use(cors({ origin: '*' }));
+		this.server.use(cors({ origin: process.env.ALLOWED_ORIGIN }));
 	}
 
 	initRouter() {
@@ -57,9 +55,10 @@ class Server {
 	async initDatabase() {
 		try {
 			await mongoose.connect(process.env.MONGODB_URL, {
+				useCreateIndex: true,
 				useNewUrlParser: true,
-				useUnifiedTopology: true,
 				useFindAndModify: false,
+				useUnifiedTopology: true,
 			});
 
 			console.log('Database connection successful');
@@ -69,8 +68,10 @@ class Server {
 	}
 
 	startListening() {
-		this.server.listen(process.env.PORT, () => {
-			console.log('Server started listening on port', process.env.PORT);
+		const port = process.env.PORT || 3001;
+
+		this.server.listen(port, () => {
+			console.log('Server started listening on port', port);
 		});
 	}
 }

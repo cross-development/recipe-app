@@ -1,4 +1,4 @@
-//Core
+//Core Mongoose
 const {
 	Schema,
 	model,

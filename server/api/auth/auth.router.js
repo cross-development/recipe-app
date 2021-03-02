@@ -1,27 +1,28 @@
-//Core
+//Core Express
 const { Router } = require('express');
 //Controller
 const authController = require('./auth.controller');
-//Middleware
-const authMiddleware = require('./auth.middleware');
-const validators = require('../../middleware/validators');
+//Helpers
+const validate = require('../../helpers/validate');
+const tryCatchHandler = require('../../helpers/tryCatchHandler');
+const validationSchemas = require('../../helpers/validationSchemas');
 
-const { singUpUser, signInUser, signOutUser, verifyEmailToken } = authController;
-const { validateSignUpUser, validateSignInUser } = authMiddleware;
-const { validateToken } = validators;
+const { singUpUser, signInUser, signOutUser } = authController;
+const { verifyEmailToken, validateToken } = authController;
+const { signUpSchema, signInSchema } = validationSchemas;
 
 const authRouter = Router();
 
 // @ POST /api/auth/register
-authRouter.post('/register', validateSignUpUser, singUpUser);
+authRouter.post('/register', validate(signUpSchema), tryCatchHandler(singUpUser));
 
 // @ POST /api/auth/login
-authRouter.post('/login', validateSignInUser, signInUser);
+authRouter.post('/login', validate(signInSchema), tryCatchHandler(signInUser));
 
 // @ POST /api/auth/logout
-authRouter.post('/logout', validateToken, signOutUser);
+authRouter.post('/logout', tryCatchHandler(validateToken), tryCatchHandler(signOutUser));
 
 // @ GET /api/auth/verify/:verificationToken
-authRouter.get('/verify/:verificationToken', verifyEmailToken);
+authRouter.get('/verify/:verificationToken', tryCatchHandler(verifyEmailToken));
 
 module.exports = authRouter;
