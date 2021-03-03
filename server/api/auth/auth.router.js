@@ -13,14 +13,14 @@ const { signUpSchema, signInSchema } = validationSchemas;
 
 const authRouter = Router();
 
-// @ POST /api/auth/register
-authRouter.post('/register', validate(signUpSchema), tryCatchHandler(singUpUser));
+// @ POST /api/auth/sign-up
+authRouter.post('/sign-up', validate(signUpSchema), tryCatchHandler(singUpUser));
 
-// @ POST /api/auth/login
-authRouter.post('/login', validate(signInSchema), tryCatchHandler(signInUser));
+// @ POST /api/auth/sign-in
+authRouter.post('/sign-in', validate(signInSchema), tryCatchHandler(signInUser));
 
-// @ POST /api/auth/logout
-authRouter.post('/logout', tryCatchHandler(validateToken), tryCatchHandler(signOutUser));
+// @ POST /api/auth/sign-out
+authRouter.post('/sign-out', tryCatchHandler(validateToken), tryCatchHandler(signOutUser));
 
 // @ GET /api/auth/verify/:verificationToken
 authRouter.get('/verify/:verificationToken', tryCatchHandler(verifyEmailToken));
