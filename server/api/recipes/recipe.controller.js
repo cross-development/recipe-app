@@ -8,8 +8,8 @@ async function getAllRecipes(req, res) {
 
 	const queryStr = query ? { name: { $regex: query, $options: 'i' } } : {};
 	const options = {
-		page,
-		limit,
+		page: page || 1,
+		limit: limit || 10,
 		select: '-ingredients -description -__v',
 		populate: [
 			{ path: 'category', select: '-_id' },
@@ -33,7 +33,8 @@ async function getRecipeById(req, res) {
 		.findOne({ _id: id })
 		.populate(ingredientOptions)
 		.populate(categoryOptions)
-		.populate(cuisineOptions);
+		.populate(cuisineOptions)
+		.select('-__v');
 
 	!response ? res.status(404).json({ message: 'Not found' }) : res.status(200).json(response);
 }
@@ -45,8 +46,8 @@ async function getRecipesByFilter(req, res) {
 	} = req;
 
 	const options = {
-		page,
-		limit,
+		page: page || 1,
+		limit: limit || 10,
 		select: '-ingredients -description -__v',
 		populate: [
 			{ path: 'category', select: '-_id' },

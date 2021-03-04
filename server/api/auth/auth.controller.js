@@ -62,7 +62,7 @@ async function signOutUser(req, res) {
 }
 
 //The middleware validate user token
-async function validateToken(req, res) {
+async function validateToken(req, res, next) {
 	const authorizationHeader = req.get('Authorization') || '';
 	const token = authorizationHeader.replace('Bearer ', '');
 

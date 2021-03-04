@@ -74,21 +74,18 @@ const querySchema = Joi.object({
 
 const { filterEnum } = configs.filter;
 
-const filterSchema = Joi.object({
+const paramSchema = Joi.object({
 	filter: Joi.string().valid(...filterEnum),
-});
-
-/**
- * =============== ID schemas =================================================
- */
-
-const idSchema = Joi.object({
 	id: Joi.string()
 		.custom((value, helpers) =>
 			!ObjectId.isValid(value) ? helpers.message({ message: 'Invalid id' }) : value,
 		)
 		.required(),
 });
+
+/**
+ * =============== ID schemas =================================================
+ */
 
 module.exports = {
 	signUpSchema,
@@ -98,6 +95,5 @@ module.exports = {
 	updateRecipeSchema,
 
 	querySchema,
-	filterSchema,
-	idSchema,
+	paramSchema,
 };

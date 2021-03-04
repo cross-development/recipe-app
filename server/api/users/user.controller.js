@@ -32,8 +32,8 @@ async function getUserRecipes(req, res) {
 	} = req;
 
 	const options = {
-		page,
-		limit,
+		page: page || 1,
+		limit: limit || 10,
 		select: '-ingredients -description -__v',
 		populate: [
 			{ path: 'category', select: '-_id' },

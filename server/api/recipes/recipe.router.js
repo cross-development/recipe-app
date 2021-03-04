@@ -8,7 +8,7 @@ const tryCatchHandler = require('../../helpers/tryCatchHandler');
 const validationSchemas = require('../../helpers/validationSchemas');
 
 const { getAllRecipes, getRecipeById, getRecipesByFilter } = recipeController;
-const { querySchema, idSchema, filterSchema } = validationSchemas;
+const { querySchema, paramSchema } = validationSchemas;
 
 const recipeRouter = Router();
 
@@ -16,14 +16,13 @@ const recipeRouter = Router();
 recipeRouter.get('/', validate(querySchema, 'query'), tryCatchHandler(getAllRecipes));
 
 // @ GET /api/recipes/:id
-recipeRouter.get('/:id', validate(idSchema, 'params'), tryCatchHandler(getRecipeById));
+recipeRouter.get('/:id', validate(paramSchema, 'params'), tryCatchHandler(getRecipeById));
 
 // @ GET /api/recipes/:filter/:id
 recipeRouter.get(
 	'/:filter/:id',
-	validate(filterSchema, 'params.filter'),
+	validate(paramSchema, 'params'),
 	validate(querySchema, 'query'),
-	validate(idSchema, 'params'),
 	tryCatchHandler(getRecipesByFilter),
 );
 
