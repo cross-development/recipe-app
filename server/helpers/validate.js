@@ -7,6 +7,8 @@ const validate = (schema, reqPart = 'body') => (req, res, next) => {
 		return res.status(400).json({ message });
 	}
 
+	req[reqPart] = validationResult.value;
+
 	next();
 };
 

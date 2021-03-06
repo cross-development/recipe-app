@@ -8,24 +8,15 @@ const ingredientModel = require('../ingredients/ingredient.model');
 // =============================================================================
 
 async function getFavIngredients(req, res) {
-	const { _id } = req.user;
-
 	const user = await userModel
-		.findById(_id)
+		.findById(req.user._id)
 		.populate({ path: 'favIngredients', select: 'name category' });
-
-	if (!user) {
-		return res.status(401).json({ message: 'Not authorized' });
-	}
 
 	return res.status(200).json({ results: user.favIngredients });
 }
 
 async function addFavIngredient(req, res) {
-	const {
-		params: { id: ingredientId },
-		user: { _id },
-	} = req;
+	const { id: ingredientId } = req.params;
 
 	const ingredient = await ingredientModel.findById(ingredientId);
 
@@ -34,7 +25,7 @@ async function addFavIngredient(req, res) {
 	}
 
 	await userModel.findByIdAndUpdate(
-		_id,
+		req.user._id,
 		{
 			$push: { favIngredients: ingredientId },
 		},
@@ -47,10 +38,7 @@ async function addFavIngredient(req, res) {
 }
 
 async function removeFavIngredient(req, res) {
-	const {
-		params: { id: ingredientId },
-		user: { _id },
-	} = req;
+	const { id: ingredientId } = req.params;
 
 	const ingredient = await ingredientModel.findById(ingredientId);
 
@@ -59,7 +47,7 @@ async function removeFavIngredient(req, res) {
 	}
 
 	await userModel.findByIdAndUpdate(
-		_id,
+		req.user._id,
 		{
 			$pull: { favIngredients: ingredientId },
 		},
@@ -68,7 +56,7 @@ async function removeFavIngredient(req, res) {
 		},
 	);
 
-	return res.status(204).send();
+	return res.status(200).json({ ingredientId });
 }
 
 // =============================================================================
@@ -76,9 +64,7 @@ async function removeFavIngredient(req, res) {
 // =============================================================================
 
 async function getFavRecipes(req, res) {
-	const { _id } = req.user;
-
-	const user = await userModel.findById(_id).populate({
+	const user = await userModel.findById(req.user._id).populate({
 		path: 'favRecipes',
 		select: '-ingredients -description -__v',
 		populate: [
@@ -87,27 +73,20 @@ async function getFavRecipes(req, res) {
 		],
 	});
 
-	if (!user) {
-		return res.status(401).json({ message: 'Not authorized' });
-	}
-
 	return res.status(200).json({ results: user.favRecipes });
 }
 
 async function addFavRecipe(req, res) {
-	const {
-		params: { id: recipeId },
-		user: { _id },
-	} = req;
+	const { id: recipeId } = req.params;
 
-	const recipe = await recipeModel.findById(recipeId);
+	const recipe = await recipeModel.findById(recipeId).select('-__v');
 
 	if (!recipe) {
 		return res.status(404).json({ message: 'Recipe does not exists' });
 	}
 
 	await userModel.findByIdAndUpdate(
-		_id,
+		req.user._id,
 		{
 			$push: { favRecipes: recipeId },
 		},
@@ -120,10 +99,7 @@ async function addFavRecipe(req, res) {
 }
 
 async function removeFavRecipe(req, res) {
-	const {
-		params: { id: recipeId },
-		user: { _id },
-	} = req;
+	const { id: recipeId } = req.params;
 
 	const recipe = await recipeModel.findById(recipeId);
 
@@ -132,7 +108,7 @@ async function removeFavRecipe(req, res) {
 	}
 
 	await userModel.findByIdAndUpdate(
-		_id,
+		req.user._id,
 		{
 			$pull: { favRecipes: recipeId },
 		},
@@ -141,7 +117,7 @@ async function removeFavRecipe(req, res) {
 		},
 	);
 
-	return res.status(204).send();
+	return res.status(200).json({ recipeId });
 }
 
 module.exports = {

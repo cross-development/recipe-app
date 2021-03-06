@@ -12,9 +12,6 @@ const userRouter = require('../api/users/user.router');
 const recipeRouter = require('../api/recipes/recipe.router');
 const favoriteRouter = require('../api/favorites/favorite.router');
 const ingredientRouter = require('../api/ingredients/ingredient.router');
-const recipeCuisineRouter = require('../api/recipeCuisines/recipeCuisine.router');
-const recipeCategoryRouter = require('../api/recipeCategories/recipeCategory.router');
-const ingredientCategoryRouter = require('../api/ingredientCategories/ingredientCategories.router');
 
 class Server {
 	constructor() {
@@ -47,9 +44,6 @@ class Server {
 		this.server.use('/api/recipes', recipeRouter);
 		this.server.use('/api/favorites', favoriteRouter);
 		this.server.use('/api/ingredients', ingredientRouter);
-		this.server.use('/api/recipe-cuisines', recipeCuisineRouter);
-		this.server.use('/api/recipe-categories', recipeCategoryRouter);
-		this.server.use('/api/ingredient-categories', ingredientCategoryRouter);
 	}
 
 	async initDatabase() {

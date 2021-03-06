@@ -29,7 +29,10 @@ const recipeSchema = new Schema({
 	fat: { type: Number, required: true },
 	carbs: { type: Number, required: true },
 	kcal: { type: Number, required: true },
-	authorID: { type: ObjectId, ref: 'User' },
+	author: {
+		id: { type: ObjectId, ref: 'User' },
+		name: { type: String },
+	},
 });
 
 recipeSchema.plugin(mongoosePaginate);

@@ -1,5 +1,6 @@
 //Model
 const ingredientModel = require('./ingredient.model');
+const ingredientInfoModel = require('./ingredientInfo.model');
 //Utils
 const prettyResponse = require('../../utils/prettyResponse');
 
@@ -23,7 +24,14 @@ async function getIngredientById(req, res) {
 	!response ? res.status(404).json({ message: 'Not found' }) : res.status(200).json(response);
 }
 
+async function getIngredientInfo(req, res) {
+	const results = await ingredientInfoModel.find({});
+
+	return res.status(200).json(results);
+}
+
 module.exports = {
 	getAllIngredients,
 	getIngredientById,
+	getIngredientInfo,
 };

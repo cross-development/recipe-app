@@ -11,7 +11,7 @@ const validationSchemas = require('../../helpers/validationSchemas');
 const { getFavIngredients, addFavIngredient, removeFavIngredient } = favoriteController;
 const { getFavRecipes, addFavRecipe, removeFavRecipe } = favoriteController;
 const { validateToken } = authController;
-const { idSchema, querySchema } = validationSchemas;
+const { paramSchema, querySchema } = validationSchemas;
 
 const favoriteRouter = Router();
 
@@ -27,7 +27,7 @@ favoriteRouter.get(
 favoriteRouter.patch(
 	'/ingredients/:id',
 	tryCatchHandler(validateToken),
-	validate(idSchema, 'params'),
+	validate(paramSchema, 'params'),
 	tryCatchHandler(addFavIngredient),
 );
 
@@ -35,7 +35,7 @@ favoriteRouter.patch(
 favoriteRouter.delete(
 	'/ingredients/:id',
 	tryCatchHandler(validateToken),
-	validate(idSchema, 'params'),
+	validate(paramSchema, 'params'),
 	tryCatchHandler(removeFavIngredient),
 );
 
@@ -51,7 +51,7 @@ favoriteRouter.get(
 favoriteRouter.patch(
 	'/recipes/:id',
 	tryCatchHandler(validateToken),
-	validate(idSchema, 'params'),
+	validate(paramSchema, 'params'),
 	tryCatchHandler(addFavRecipe),
 );
 
@@ -59,7 +59,7 @@ favoriteRouter.patch(
 favoriteRouter.delete(
 	'/recipes/:id',
 	tryCatchHandler(validateToken),
-	validate(idSchema, 'params'),
+	validate(paramSchema, 'params'),
 	tryCatchHandler(removeFavRecipe),
 );
 

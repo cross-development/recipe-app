@@ -10,7 +10,7 @@ const validationSchemas = require('../../helpers/validationSchemas');
 
 const { getCurrentUser, getUserRecipes, addRecipe, removeRecipe, updateRecipe } = userController;
 const { validateToken } = authController;
-const { idSchema, querySchema, createRecipeSchema, updateRecipeSchema } = validationSchemas;
+const { paramSchema, querySchema, createRecipeSchema, updateRecipeSchema } = validationSchemas;
 
 const userRouter = Router();
 
@@ -45,7 +45,7 @@ userRouter.post(
 userRouter.delete(
 	'/recipes/:id',
 	tryCatchHandler(validateToken),
-	validate(idSchema, 'params'),
+	validate(paramSchema, 'params'),
 	tryCatchHandler(removeRecipe),
 );
 
@@ -53,7 +53,7 @@ userRouter.delete(
 userRouter.patch(
 	'/recipes/:id',
 	tryCatchHandler(validateToken),
-	validate(idSchema, 'params'),
+	validate(paramSchema, 'params'),
 	validate(updateRecipeSchema),
 	tryCatchHandler(updateRecipe),
 );

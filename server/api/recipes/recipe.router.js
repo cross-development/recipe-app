@@ -7,13 +7,16 @@ const validate = require('../../helpers/validate');
 const tryCatchHandler = require('../../helpers/tryCatchHandler');
 const validationSchemas = require('../../helpers/validationSchemas');
 
-const { getAllRecipes, getRecipeById, getRecipesByFilter } = recipeController;
+const { getAllRecipes, getRecipeById, getRecipesByFilter, getRecipeInfo } = recipeController;
 const { querySchema, paramSchema } = validationSchemas;
 
 const recipeRouter = Router();
 
 // @ GET /api/recipes
 recipeRouter.get('/', validate(querySchema, 'query'), tryCatchHandler(getAllRecipes));
+
+// @ GET /api/recipes/info
+recipeRouter.get('/info', tryCatchHandler(getRecipeInfo));
 
 // @ GET /api/recipes/:id
 recipeRouter.get('/:id', validate(paramSchema, 'params'), tryCatchHandler(getRecipeById));

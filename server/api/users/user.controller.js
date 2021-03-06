@@ -14,10 +14,6 @@ async function getCurrentUser(req, res) {
 		.populate({ path: 'favIngredients', select: 'name' })
 		.populate({ path: 'recipes', select: '-ingredients -description -__v' });
 
-	if (!user) {
-		return res.status(401).json({ message: 'Not authorized' });
-	}
-
 	return res.status(200).json({ userId: user._id, username: user.username, email: user.email });
 }
 
@@ -26,14 +22,11 @@ async function getCurrentUser(req, res) {
 // =============================================================================
 
 async function getUserRecipes(req, res) {
-	const {
-		query: { page, limit },
-		user: { _id },
-	} = req;
+	const { page, limit } = req.query;
 
 	const options = {
-		page: page || 1,
-		limit: limit || 10,
+		page,
+		limit,
 		select: '-ingredients -description -__v',
 		populate: [
 			{ path: 'category', select: '-_id' },
@@ -41,7 +34,7 @@ async function getUserRecipes(req, res) {
 		],
 	};
 
-	const results = await recipeModel.paginate({ authorID: _id }, options);
+	const results = await recipeModel.paginate({ authorID: req.user._id }, options);
 	const response = prettyResponse(results);
 
 	!response ? res.status(404).json({ message: 'Not found' }) : res.status(200).json(response);
@@ -50,11 +43,10 @@ async function getUserRecipes(req, res) {
 async function addRecipe(req, res) {
 	const user = await userModel.findById(req.user._id);
 
-	if (!user) {
-		return res.status(401).json({ message: 'Not authorized' });
-	}
-
-	const recipe = await recipeModel.create({ ...req.body, authorID: user._id });
+	const recipe = await recipeModel.create({
+		...req.body,
+		author: { id: user._id, name: user.username },
+	});
 
 	await userModel.findByIdAndUpdate(
 		user._id,
@@ -69,15 +61,10 @@ async function removeRecipe(req, res) {
 	const { id } = req.params;
 	const user = await userModel.findById(req.user._id);
 
-	if (!user) {
-		return res.status(401).json({ message: 'Not authorized' });
-	}
-
 	await recipeModel.findByIdAndDelete({ _id: id });
-
 	await userModel.findByIdAndUpdate(user._id, { $pull: { userRecipes: id } }, { new: true });
 
-	return res.status(204).send();
+	return res.status(200).json({ recipeId: id });
 }
 
 async function updateRecipe(req, res) {}
