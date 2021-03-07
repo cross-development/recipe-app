@@ -19,7 +19,6 @@ async function getAllRecipes(req, res) {
 	};
 
 	const results = await recipeModel.paginate(queryStr, options);
-	console.log(results);
 	const response = prettyResponse(results);
 
 	!response ? res.status(404).json({ message: 'Not found' }) : res.status(200).json(response);

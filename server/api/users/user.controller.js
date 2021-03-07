@@ -34,7 +34,7 @@ async function getUserRecipes(req, res) {
 		],
 	};
 
-	const results = await recipeModel.paginate({ authorID: req.user._id }, options);
+	const results = await recipeModel.paginate({ 'author.id': req.user._id }, options);
 	const response = prettyResponse(results);
 
 	!response ? res.status(404).json({ message: 'Not found' }) : res.status(200).json(response);
