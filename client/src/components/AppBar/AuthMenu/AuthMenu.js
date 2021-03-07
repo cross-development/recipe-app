@@ -16,7 +16,7 @@ const AuthMenu = ({ location }) => (
 			<StyledNavItem>
 				<StyledNavLink
 					to={{
-						pathname: '/login',
+						pathname: '/sign-in',
 						state: { from: location },
 					}}
 				>
@@ -26,7 +26,7 @@ const AuthMenu = ({ location }) => (
 			</StyledNavItem>
 
 			<StyledNavItem>
-				<StyledNavLink to="/register">
+				<StyledNavLink to="/sign-up">
 					<StyledSignUp />
 					Sign Up
 				</StyledNavLink>

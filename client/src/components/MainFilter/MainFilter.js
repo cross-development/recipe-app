@@ -13,7 +13,7 @@ const filterOptions = [
 	{ value: 'cuisine', label: 'Кухни' },
 ];
 
-const MainFilter = ({ onChangeFilterId, onChangeFilterCategory, filter }) => {
+const MainFilter = ({ onChangeFilterId, onChangeFilterCategory, onGoHome, filter }) => {
 	const { categories, cuisines } = useSelector(state => state.recipes);
 
 	const data = filter === filterOptions[0].value ? categories : cuisines;
@@ -43,7 +43,12 @@ const MainFilter = ({ onChangeFilterId, onChangeFilterCategory, filter }) => {
 				</StyledSelect>
 			</StyledLabel>
 
-			<Carousel data={data} pathToSearch={filter} onChangeFilterId={onChangeFilterId} />
+			<Carousel
+				data={data}
+				pathToSearch={filter}
+				onGoHome={onGoHome}
+				onChangeFilterId={onChangeFilterId}
+			/>
 		</StyledContainer>
 	);
 };

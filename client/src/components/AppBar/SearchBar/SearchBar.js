@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { Notification } from 'components/Commons';
 //Styles
 import { FaSearch } from 'react-icons/fa';
-import { StyledWrap, StyledForm, StyledLabel, StyledInput, StyledButton } from './SearchBar.styles';
+import { StyledWrap, StyledForm, StyledInput, StyledButton } from './SearchBar.styles';
 
 const SearchBar = ({ onSubmit }) => {
 	const [state, setState] = useState('');
@@ -38,7 +38,7 @@ const SearchBar = ({ onSubmit }) => {
 
 				<StyledButton type="submit">
 					<FaSearch />
-					<StyledLabel>Search</StyledLabel>
+					Search
 				</StyledButton>
 			</StyledForm>
 

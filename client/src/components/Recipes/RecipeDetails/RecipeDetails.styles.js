@@ -17,6 +17,8 @@ export const StyledCuisine = styled.p``;
 
 export const StyledCooking = styled.p``;
 
+export const StyledAuthor = styled.p``;
+
 export const StyledNutrition = styled.ul``;
 
 export const StyledNutritionItem = styled.li``;

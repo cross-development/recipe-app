@@ -66,23 +66,35 @@ const removeUserRecipe = recipeId => dispatch => {
 		.catch(error => dispatch(recipeActions.removeUserRecipeFailure(error)));
 };
 
-const getRecipesCategories = () => dispatch => {
+const getRecipesInfo = () => dispatch => {
 	dispatch(recipeActions.getRecipeCategoryRequest());
 
 	axios
-		.get('/api/recipe-categories')
-		.then(({ data }) => dispatch(recipeActions.getRecipeCategorySuccess(data)))
+		.get('/api/recipes/info')
+		.then(({ data }) => {
+			dispatch(recipeActions.getRecipeCuisineSuccess(data.cuisines));
+			dispatch(recipeActions.getRecipeCategorySuccess(data.categories));
+		})
 		.catch(error => dispatch(recipeActions.getRecipeCategoryFailure(error)));
 };
 
-const getRecipesCuisines = () => dispatch => {
-	dispatch(recipeActions.getRecipeCuisineRequest());
+// const getRecipesCategories = () => dispatch => {
+// 	dispatch(recipeActions.getRecipeCategoryRequest());
 
-	axios
-		.get('/api/recipe-cuisines')
-		.then(({ data }) => dispatch(recipeActions.getRecipeCuisineSuccess(data)))
-		.catch(error => dispatch(recipeActions.getRecipeCuisineFailure(error)));
-};
+// 	axios
+// 		.get('/api/recipe-categories')
+// 		.then(({ data }) => dispatch(recipeActions.getRecipeCategorySuccess(data)))
+// 		.catch(error => dispatch(recipeActions.getRecipeCategoryFailure(error)));
+// };
+
+// const getRecipesCuisines = () => dispatch => {
+// 	dispatch(recipeActions.getRecipeCuisineRequest());
+
+// 	axios
+// 		.get('/api/recipe-cuisines')
+// 		.then(({ data }) => dispatch(recipeActions.getRecipeCuisineSuccess(data)))
+// 		.catch(error => dispatch(recipeActions.getRecipeCuisineFailure(error)));
+// };
 
 const recipeOperations = {
 	getAllRecipes,
@@ -92,8 +104,9 @@ const recipeOperations = {
 	getUserRecipes,
 	addUserRecipe,
 	removeUserRecipe,
-	getRecipesCategories,
-	getRecipesCuisines,
+	getRecipesInfo,
+	// getRecipesCategories,
+	// getRecipesCuisines,
 };
 
 export default recipeOperations;

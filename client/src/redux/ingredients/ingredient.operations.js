@@ -34,7 +34,7 @@ const getIngredientsCategories = () => dispatch => {
 	dispatch(ingredientActions.getIngredientCategoryRequest());
 
 	axios
-		.get('/api/ingredient-categories')
+		.get('/api/ingredients/info')
 		.then(({ data }) => dispatch(ingredientActions.getIngredientCategorySuccess(data)))
 		.catch(error => dispatch(ingredientActions.getIngredientCategoryFailure(error)));
 };

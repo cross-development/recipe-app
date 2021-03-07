@@ -41,7 +41,11 @@ const IngredientInput = ({ onAddIngredient }) => {
 	const [ingredientCategory, setIngredientCategory] = useState(null);
 
 	const dispatch = useDispatch();
-	const { allIngredients, categories } = useSelector(state => state.ingredients);
+
+	const {
+		categories,
+		allIngredients: { results },
+	} = useSelector(state => state.ingredients);
 
 	const handleChangeIngredient = ({ target: { name, value } }) =>
 		setIngredient(prevState => ({ ...prevState, [name]: value }));
@@ -58,7 +62,7 @@ const IngredientInput = ({ onAddIngredient }) => {
 	const loadOptions = async (value, callback) => {
 		await fetchIngredients(value);
 
-		const data = await allIngredients.map(({ _id, name }) => ({ label: name, value: _id }));
+		const data = await results.map(({ _id, name }) => ({ label: name, value: _id }));
 		callback(data);
 	};
 
@@ -116,7 +120,6 @@ const IngredientInput = ({ onAddIngredient }) => {
 				<StyledAmount
 					name="amount"
 					type="number"
-					required={true}
 					autoComplete="off"
 					placeholder={'Введите количество'}
 					value={ingredient.amount || ''}

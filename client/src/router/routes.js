@@ -12,7 +12,7 @@ const routes = [
 		component: lazy(() => import('pages/HomePage' /* webpackChunkName: "home-page" */)),
 	},
 	{
-		path: '/register',
+		path: '/sign-up',
 		label: 'Регистрация',
 		exact: true,
 		private: false,
@@ -21,7 +21,7 @@ const routes = [
 		component: lazy(() => import('pages/RegisterPage' /* webpackChunkName: "register-page"*/)),
 	},
 	{
-		path: '/login',
+		path: '/sign-in',
 		label: 'Вход',
 		exact: true,
 		private: false,

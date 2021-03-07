@@ -11,6 +11,7 @@ import {
 	StyledCategory,
 	StyledCuisine,
 	StyledCooking,
+	StyledAuthor,
 	StyledNutrition,
 	StyledNutritionItem,
 	StyledIngredients,
@@ -21,7 +22,7 @@ import {
 } from './RecipeDetails.styles';
 
 const RecipeDetails = ({ recipe = {}, existUser = {}, isFav, onChangeFav, onRemoveRecipe }) => {
-	const { name, category, cuisine, cookingTime, description, ingredients, authorID } = recipe;
+	const { name, category, cuisine, cookingTime, description, ingredients, author } = recipe;
 	const { protein, fat, carbs, kcal } = recipe;
 
 	return (
@@ -36,6 +37,7 @@ const RecipeDetails = ({ recipe = {}, existUser = {}, isFav, onChangeFav, onRemo
 				<StyledCategory>Категория: {category.name}</StyledCategory>
 				<StyledCuisine>Кухня: {cuisine.name}</StyledCuisine>
 				<StyledCooking>Время приготовления: {cookingTime} мин.</StyledCooking>
+				<StyledAuthor>Автор рецепта: {author.name}</StyledAuthor>
 
 				<StyledNutrition>
 					<StyledNutritionItem>Белки: {protein} г</StyledNutritionItem>
@@ -64,7 +66,7 @@ const RecipeDetails = ({ recipe = {}, existUser = {}, isFav, onChangeFav, onRemo
 						{isFav ? 'Удалить из избранных' : 'Добавить в избранные'}
 					</StyledButton>
 
-					{existUser.userId === authorID && (
+					{existUser.userId === author.id && (
 						<StyledButton type="button" onClick={onRemoveRecipe}>
 							Удалить рецепт
 						</StyledButton>

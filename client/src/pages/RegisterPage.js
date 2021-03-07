@@ -25,7 +25,7 @@ const RegisterPage = () => {
 		const credential = { username, email, password };
 
 		dispatch(authOperations.userSignUp({ credential }));
-		history.replace('/login');
+		history.replace('/sign-in');
 	};
 
 	return (

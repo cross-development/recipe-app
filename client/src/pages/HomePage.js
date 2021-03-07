@@ -23,10 +23,21 @@ const HomePage = () => {
 
 	const handleChangeFilterId = filterId => setFilter(prevState => ({ ...prevState, filterId }));
 
+	const handleGoHome = () => setFilter(prevState => ({ ...prevState, filterId: '' }));
+
 	const handleChangeFilterCategory = ({ target: { name, value } }) =>
 		setFilter({ filterId: '', [name]: value });
 
-	const { allRecipes, loading } = useSelector(state => state.recipes);
+	const {
+		loading,
+		allRecipes: { results },
+	} = useSelector(state => state.recipes);
+
+	useEffect(() => {
+		const { filterId, page } = filter;
+
+		!filterId && dispatch(recipeOperations.getAllRecipes(page));
+	}, [dispatch, filter]);
 
 	useEffect(() => {
 		const { page, filterId, filterCategory } = filter;
@@ -36,20 +47,19 @@ const HomePage = () => {
 
 	return (
 		<div>
+			{loading && <Loader onLoad={loading} />}
+
 			<MainFilter
 				filter={filter.filterCategory}
+				onGoHome={handleGoHome}
 				onChangeFilterId={handleChangeFilterId}
 				onChangeFilterCategory={handleChangeFilterCategory}
 			/>
 
-			{loading && <Loader onLoad={loading} />}
+			{!loading && results.length > 0 && <RecipeTable recipes={results} location={location} />}
 
-			{!loading && allRecipes.length < 1 && (
+			{!loading && results.length < 1 && (
 				<Notification message="По этой категории рецептов не найдено." />
-			)}
-
-			{!loading && allRecipes.length > 0 && (
-				<RecipeTable recipes={allRecipes} location={location} />
 			)}
 		</div>
 	);

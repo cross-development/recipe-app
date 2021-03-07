@@ -18,14 +18,12 @@ import PrivateRoute from 'router/PrivateRoute';
 const App = () => {
 	const dispatch = useDispatch();
 
-	const isSignIn = useRouteMatch('/login');
-	const isSignUp = useRouteMatch('/register');
+	const isSignIn = useRouteMatch('/sign-in');
+	const isSignUp = useRouteMatch('/sign-up');
 
 	useEffect(() => dispatch(authOperations.getCurrentUser()), [dispatch]);
 
-	useEffect(() => dispatch(recipeOperations.getRecipesCuisines()), [dispatch]);
-
-	useEffect(() => dispatch(recipeOperations.getRecipesCategories()), [dispatch]);
+	useEffect(() => dispatch(recipeOperations.getRecipesInfo()), [dispatch]);
 
 	useEffect(() => dispatch(ingredientOperations.getIngredientsCategories()), [dispatch]);
 

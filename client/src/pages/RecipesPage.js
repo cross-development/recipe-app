@@ -10,9 +10,12 @@ import { recipeOperations } from 'redux/recipes';
 
 const RecipesPage = () => {
 	const location = useLocation();
-
 	const dispatch = useDispatch();
-	const { allRecipes, loading } = useSelector(state => state.recipes);
+
+	const {
+		loading,
+		allRecipes: { results },
+	} = useSelector(state => state.recipes);
 
 	useEffect(() => {
 		dispatch(recipeOperations.getAllRecipes());
@@ -22,9 +25,7 @@ const RecipesPage = () => {
 		<div>
 			{loading && <Loader onLoad={loading} />}
 
-			{!loading && allRecipes.length > 0 && (
-				<RecipeTable recipes={allRecipes} location={location} />
-			)}
+			{!loading && results.length > 0 && <RecipeTable recipes={results} location={location} />}
 		</div>
 	);
 };

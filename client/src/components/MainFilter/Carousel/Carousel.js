@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 import ItemsCarousel from 'react-items-carousel';
 //Styles
 import { StyledWrap, StyledItemWrap, StyledItem, StyledButton, StyledImg } from './Carousel.styles';
-import { HiArrowNarrowLeft, HiArrowNarrowRight } from 'react-icons/hi';
+import { HiArrowNarrowLeft, HiArrowNarrowRight, HiHome } from 'react-icons/hi';
 
-const Carousel = ({ data, pathToSearch, onChangeFilterId }) => {
+const Carousel = ({ data, pathToSearch, onChangeFilterId, onGoHome }) => {
 	const [activeItemIndex, setActiveItemIndex] = useState(0);
 
 	const carouselItems = data.map(({ _id, label, img }) => (
@@ -18,20 +18,31 @@ const Carousel = ({ data, pathToSearch, onChangeFilterId }) => {
 		</StyledItemWrap>
 	));
 
+	const buttonGoHome = (
+		<StyledButton type="button" onClick={onGoHome}>
+			<HiHome />
+		</StyledButton>
+	);
+
 	return (
 		<StyledWrap>
 			<ItemsCarousel
 				requestToChangeActive={setActiveItemIndex}
 				activeItemIndex={activeItemIndex}
 				numberOfCards={5}
+				alwaysShowChevrons={true}
 				gutter={10}
 				leftChevron={
-					<StyledButton>
-						<HiArrowNarrowLeft />
-					</StyledButton>
+					!activeItemIndex ? (
+						buttonGoHome
+					) : (
+						<StyledButton type="button">
+							<HiArrowNarrowLeft />
+						</StyledButton>
+					)
 				}
 				rightChevron={
-					<StyledButton>
+					<StyledButton type="button">
 						<HiArrowNarrowRight />
 					</StyledButton>
 				}

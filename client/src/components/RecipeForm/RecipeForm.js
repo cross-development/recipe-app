@@ -73,9 +73,7 @@ const RecipeForm = ({ onToggleModalOpen }) => {
 
 		const credential = { ...recipe, ingredients: [...updatedIngredients] };
 
-		console.log('credential', credential);
-
-		// dispatch(recipeOperations.addUserRecipe({ credential }));
+		dispatch(recipeOperations.addUserRecipe({ credential }));
 		onToggleModalOpen();
 	};
 
